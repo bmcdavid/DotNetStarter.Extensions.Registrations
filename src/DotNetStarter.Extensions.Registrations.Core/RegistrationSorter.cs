@@ -23,6 +23,11 @@ namespace DotNetStarter.Extensions.Registrations.Core
         }
 
         /// <summary>
+        /// Defines the default behavior when getting an assemblies types, the default is ExportsOnly
+        /// </summary>
+        protected virtual ExportsType DefaultExportsType => ExportsType.ExportsOnly;
+
+        /// <summary>
         /// Default sorter or Types or Assemblies
         /// </summary>
         /// <param name="assemblies"></param>
@@ -87,7 +92,7 @@ namespace DotNetStarter.Extensions.Registrations.Core
         /// <returns></returns>
         protected virtual IEnumerable<Type> GetExportedTypes(Assembly assembly)
         {
-            var exportsType = ExportsType.All;
+            var exportsType = DefaultExportsType;
             var exportAttribute = assembly.GetCustomAttribute<ExportsAttribute>();
 
             if (exportAttribute != null)

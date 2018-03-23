@@ -7,7 +7,6 @@ using DotNetStarter.Extensions.Registrations.Core;
 using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
 using EPiServer.ServiceLocation;
-// ReSharper disable UnassignedGetOnlyAutoProperty
 
 namespace DotNetStarter.Extensions.Registrations.EpiserverCms
 {
@@ -20,12 +19,12 @@ namespace DotNetStarter.Extensions.Registrations.EpiserverCms
         /// <summary>
         /// Allows for assemblies to be customized, default looks for assemblies with DiscoverableAssemblyAttribute attributes
         /// </summary>
-        public static Func<IEnumerable<Assembly>> GetAssembliesToScan { get; }
+        public static Func<IEnumerable<Assembly>> GetAssembliesToScan { get; set; }
 
         /// <summary>
         /// Allows for registration sorter customization
         /// </summary>
-        public static Func<IRegistrationSorter> GetRegistrationSorter { get; }
+        public static Func<IRegistrationSorter> GetRegistrationSorter { get; set; }
 
         /// <summary>
         /// Converts DotNetStarter.Lifecycle to ServiceLifetime
