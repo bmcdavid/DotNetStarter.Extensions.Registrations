@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <ProjectName>DotNetStarter.Extensions.Registrations.Core</ProjectName>
+    <TargetFramework>net461</TargetFramework>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(ProjectName).xml</DocumentationFile>    
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\dotnetstarter.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DotNetStarter.RegistrationAbstractions" Version="1.1.0" />
+    <PackageReference Include="EPiServer.Framework" Version="11.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DotNetStarter.Extensions.Registrations.Core\DotNetStarter.Extensions.Registrations.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="EPiServer.Framework">
+      <HintPath>EPiServer.Framework</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+  </ItemGroup>
+
+</Project>
