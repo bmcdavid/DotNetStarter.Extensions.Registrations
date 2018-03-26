@@ -80,7 +80,9 @@ namespace DotNetStarter.Extensions.Registrations.Core
         /// <returns></returns>
         protected virtual IEnumerable<DependentRegistration> ConvertToDependentRegistrations(Type t)
         {
-            var attrs = t.GetTypeInfo().GetCustomAttributes<RegistrationAttribute>();
+            var type = t.GetTypeInfo();
+            if (type.IsAbstract || type.IsInterface) return Enumerable.Empty<DependentRegistration>();
+            var attrs = type.GetCustomAttributes<RegistrationAttribute>();
 
             return attrs.Select(x => new DependentRegistration(t, x));
         }
