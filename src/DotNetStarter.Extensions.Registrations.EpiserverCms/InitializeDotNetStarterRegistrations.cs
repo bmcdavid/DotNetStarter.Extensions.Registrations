@@ -1,7 +1,8 @@
-﻿using System;
+﻿using DotNetStarter.Extensions.Registrations.Core;
 using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
 using EPiServer.ServiceLocation;
+using System;
 
 namespace DotNetStarter.Extensions.Registrations.EpiserverCms
 {
@@ -14,7 +15,7 @@ namespace DotNetStarter.Extensions.Registrations.EpiserverCms
         /// <summary>
         /// Determines if service needs a service accessor registration for Inject&lt;T> types.
         /// </summary>
-        public static Func<IRegisteredService, bool> AddServiceAccessor { get; set; }
+        public static Func<DependentRegistration, bool> AddServiceAccessor { get; set; }
 
         /// <summary>
         /// Global switch to disable default module for advanced configurations

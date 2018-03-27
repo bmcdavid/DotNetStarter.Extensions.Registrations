@@ -1,10 +1,10 @@
-﻿using System;
+﻿using DotNetStarter.Abstractions;
+using DotNetStarter.Extensions.Registrations.Core;
+using EPiServer.ServiceLocation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using DotNetStarter.Abstractions;
-using DotNetStarter.Extensions.Registrations.Core;
-using EPiServer.ServiceLocation;
 
 namespace DotNetStarter.Extensions.Registrations.EpiserverCms
 {
@@ -24,7 +24,7 @@ namespace DotNetStarter.Extensions.Registrations.EpiserverCms
         public static void AddDotNetStarterRegistrations(this IServiceConfigurationProvider services,
             IEnumerable<Assembly> assembliesToScan = null,
             IRegistrationSorter registrationSorter = null,
-            Func<IRegisteredService, bool> addServiceAccessor = null)
+            Func<DependentRegistration, bool> addServiceAccessor = null)
         {
             var assemblies = assembliesToScan ??
                              AssemblyLoader()
@@ -41,7 +41,7 @@ namespace DotNetStarter.Extensions.Registrations.EpiserverCms
                     ConvertToServiceLifetime(t.Registration.Lifecycle)
                 );
 
-                if (addServiceAccessor?.Invoke(service) == true)
+                if (addServiceAccessor?.Invoke(t) == true)
                 {
                     service.AddServiceAccessor();
                 }

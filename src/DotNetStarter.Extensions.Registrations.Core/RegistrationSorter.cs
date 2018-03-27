@@ -1,8 +1,8 @@
-﻿using System;
+﻿using DotNetStarter.Abstractions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using DotNetStarter.Abstractions;
 
 namespace DotNetStarter.Extensions.Registrations.Core
 {
