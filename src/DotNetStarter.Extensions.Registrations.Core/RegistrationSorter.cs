@@ -62,7 +62,7 @@ namespace DotNetStarter.Extensions.Registrations.Core
 
                 if (count == unresolved.Count)
                 {
-                    var names = string.Join(Environment.NewLine, unresolved.Select(x => x.Implementation.FullName).ToArray());
+                    var names = string.Join(Environment.NewLine, unresolved.Select(x => x.Implementation.FullName));
                     throw new InvalidOperationException($"Cannot resolve registrations for the following: {names}, please check their dependencies!");
                 }
 

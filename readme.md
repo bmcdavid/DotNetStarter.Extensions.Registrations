@@ -19,17 +19,17 @@ public void ConfigureServices(IServiceCollection services)
 
 By default, the Episerver extension requires no additional work other than installing its Nuget Package of DotNetStarter.Extensions.Registrations.EpiserverCms
 
-The assembly loading and registration sorting can be customized by setting InitializeDotNetStarterRegistrations.GetAssembliesToScan or InitializeDotNetStarterRegistrations.GetRegistrationSorter in a PreApplicationStartMethod as show in the optional sample code below:
+The assembly loading and registration sorting can be customized by setting InitializeDotNetStarterRegistrations.ModuleEnabled equal to false in a PreApplicationStartMethod as show in the optional sample code below:
 
 ```cs
-using System.Collections.Generic;
-using System.Reflection;
-using DotNetStarter.Abstractions;
-using DotNetStarter.Extensions.Registrations.Core;
 using DotNetStarter.Extensions.Registrations.EpiserverCms;
+using EPiServer.Framework;
+using EPiServer.Framework.Initialization;
+using EPiServer.ServiceLocation;
+using System.Reflection;
 
 // type and static void method 'Init' to assign GetAssembliesToScan or GetRegistrationSorter
-[assembly: System.Web.PreApplicationStartMethod(typeof(Example.StartupClass), "Init")]
+[assembly: System.Web.PreApplicationStartMethod(typeof(Example.StartupClass), nameof(Example.StartupClass.Init))]
 
 namespace Example
 {
@@ -38,37 +38,39 @@ namespace Example
     /// </summary>
     public class StartupClass
     {
-
+        /// <summary>
+        /// Run pre start code
+        /// </summary>
         public static void Init()
         {
-            // area to perform customization before Episerver initialization
-
-            // use manual assembly list
-            InitializeDotNetStarterRegistrations.GetAssembliesToScan = CustomizedAssemblies;
-
-            // changes default behavior to export all types
-            InitializeDotNetStarterRegistrations.GetRegistrationSorter = () => new CustomRegistrationSorter();
+            InitializeDotNetStarterRegistrations.ModuleEnabled = false;
         }
 
-        private static IEnumerable<Assembly> CustomizedAssemblies()
-        {
-            // typeof(Namespace.Class).Assembly is only needed once per assembly, do not add one for every class in the assembly.
-            return new []
-            {
-                typeof(Example.StartupClass).Assembly, // look for classes using RegistrationAttribute in this dll
-                // can add many more assemblies
-            };
-        }
     }
 
-    public class CustomRegistrationSorter : RegistrationSorter
+    /// <summary>
+    /// Example customization for advanced usages
+    /// </summary>
+    [InitializableModule]
+    public class CustomDotNetStarterRegistration : IConfigurableModule
     {
-        public CustomRegistrationSorter(): base(new DependentRegistrationComparer()){ }
+        void IConfigurableModule.ConfigureContainer(ServiceConfigurationContext context)
+        {
+            var customAssemblies = new Assembly[]
+            {
+                typeof(Example.StartupClass).Assembly // look for types in StartupClass assembly
+                // can add many more assemblies in this manner
+            };
 
-        /// <summary>
-        /// Changes default behavior to export all assembly types when Exports assembly attribute isn't included
-        /// </summary>
-        protected override ExportsType DefaultExportsType { get; } = ExportsType.All;
+            context.AddDotNetStarterRegistrationsForContext
+            (
+                assembliesToScan: customAssemblies
+            );
+        }
+
+        void IInitializableModule.Initialize(InitializationEngine context) { }
+
+        void IInitializableModule.Uninitialize(InitializationEngine context) { }
     }
 }
 ```
@@ -100,7 +102,7 @@ namespace ExampleNamespace
 }
 ```
 
-To opt into the default registration extensions discovery process, the following attributes must be added to the project code, normally in the Properties\AssemblyInfo.cs file where other assembly level information is store.
+The following assembly attributes must be added to the project code, normally in the Properties\AssemblyInfo.cs file where other assembly level information is store. These attributes are used during the scanning process to determine which DLL files to examine for discovering RegistrationAttribute usages.
 
 ```cs
 using DotNetStarter.Abstractions;

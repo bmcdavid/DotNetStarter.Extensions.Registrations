@@ -12,11 +12,15 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{93E323EE-B1E0-4CD9-B27C-4A84F8468373}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		appveyor.yml = appveyor.yml
+		license.txt = license.txt
 		.nuget\nuget.config = .nuget\nuget.config
+		.nuget\pack.ps1 = .nuget\pack.ps1
 		readme.md = readme.md
+		.nuget\setVersion.ps1 = .nuget\setVersion.ps1
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleServicePackage", "src\ExampleServicePackage\ExampleServicePackage.csproj", "{E6D1A36B-459A-48BF-B74D-03B6B711BE33}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExampleServicePackage", "src\ExampleServicePackage\ExampleServicePackage.csproj", "{E6D1A36B-459A-48BF-B74D-03B6B711BE33}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{3D4F2AB8-9A42-4A5F-B88C-E02DBC2FCFDE}"
 EndProject

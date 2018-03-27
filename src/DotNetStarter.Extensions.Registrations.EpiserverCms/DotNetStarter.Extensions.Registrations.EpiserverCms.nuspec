@@ -14,14 +14,12 @@
     <dependencies>      
       <group targetFramework="net461">
         <dependency id="DotNetStarter.RegistrationAbstractions" version="[1.1.0,)" />
-        <dependency id="EPiServer.Framework" version="[1.1.0,)" />
+        <dependency id="EPiServer.Framework" version="[11.1.0,)" />
       </group>
     </dependencies>
   </metadata>
   <files>
-    <file src="**\*.cs" target="src" exclude="obj\**\*.cs" />
-    <file src="readme.txt" target="readme.txt" />
-    
+    <file src="**\*.cs" target="src" exclude="obj\**\*.cs" />    
     <file src="bin\Release\net461\DotNetStarter.Extensions.Registrations.Core.dll" target="lib\net461" />
     <file src="bin\Release\net461\DotNetStarter.Extensions.Registrations.Core.pdb" target="lib\net461" />
     <file src="bin\Release\net461\DotNetStarter.Extensions.Registrations.Core.xml" target="lib\net461" />

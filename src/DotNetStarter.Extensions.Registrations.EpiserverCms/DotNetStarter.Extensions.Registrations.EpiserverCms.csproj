@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <ProjectName>DotNetStarter.Extensions.Registrations.Core</ProjectName>
+    <ProjectName>DotNetStarter.Extensions.Registrations.EpiserverCms</ProjectName>
     <TargetFramework>net461</TargetFramework>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(ProjectName).xml</DocumentationFile>    
