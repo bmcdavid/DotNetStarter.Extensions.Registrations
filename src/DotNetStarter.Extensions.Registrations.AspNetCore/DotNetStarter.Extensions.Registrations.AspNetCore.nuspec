@@ -5,7 +5,7 @@
     <version>$version$</version>
     <authors>Brad McDavid</authors>
     <owners>Brad McDavid</owners>
-    <projectUrl>https://bmcdavid.github.io/DotNetStarter/</projectUrl>
+    <projectUrl>https://github.com/bmcdavid/DotNetStarter.Extensions.Registrations</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Add to AspNetCore projects only, adds ability to insert RegistrationAttribute types to IServiceCollection.</description>
     <releaseNotes>Initial release.</releaseNotes>

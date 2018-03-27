@@ -105,7 +105,7 @@ namespace ExampleNamespace
 }
 ```
 
-The following assembly attributes must be added to the project code, normally in the Properties\AssemblyInfo.cs file where other assembly level information is store. These attributes are used during the scanning process to determine which DLL files to examine for discovering RegistrationAttribute usages.
+**Important:** The following assembly attributes must be added to the project code, normally in the Properties\AssemblyInfo.cs file where other assembly level information is stored. These attributes are used during the scanning process to determine which DLL files to examine for discovering RegistrationAttribute usages.
 
 ```cs
 using DotNetStarter.Abstractions;
