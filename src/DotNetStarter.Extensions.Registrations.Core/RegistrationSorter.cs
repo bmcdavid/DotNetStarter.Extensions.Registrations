@@ -54,7 +54,7 @@ namespace DotNetStarter.Extensions.Registrations.Core
                 if (hashSet.IsSupersetOf(dependentRegistration.Registration.Dependencies))
                 {
                     resolved.Add(dependentRegistration);
-                    hashSet.Add(dependentRegistration.Registration);
+                    hashSet.Add(dependentRegistration.Implementation);
                     unresolved.RemoveAt(index--);
                 }
 
