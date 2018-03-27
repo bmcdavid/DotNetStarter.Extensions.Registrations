@@ -25,7 +25,7 @@ namespace DotNetStarter.Extensions.Registrations.EpiserverCms
         {
             if (ModuleEnabled)
             {
-                context.AddDotNetStarterRegistrationsForContext(addServiceAccessor: AddServiceAccessor);
+                context.Services.AddDotNetStarterRegistrations(addServiceAccessor: AddServiceAccessor);
             }
         }
 

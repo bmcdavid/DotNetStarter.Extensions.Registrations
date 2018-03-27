@@ -1,5 +1,8 @@
 # DotNetStarter.Extensions.Registrations Read Me
 
+[![Build status](https://ci.appveyor.com/api/projects/status/ub16hwapqm5q6mr0/branch/master?svg=true)](https://ci.appveyor.com/project/bmcdavid/dotnetstarter-extensions-registrations/branch/master)
+
+
 The extensions provided in this project focus only on the dependency injection component of [DotNetStarter](https://bmcdavid.github.io/DotNetStarter/). If the full DotNetStarter package is installed, these extensions should not be used. These extensions provide service registration to AspNetCore's dependency injection or Episerver's service configuration utilizing the DotNetStarter.RegistrationAttribute attribute on class types that implement abstract services.
 
 ## AspNetCore Service Wireup
@@ -62,7 +65,7 @@ namespace Example
                 // can add many more assemblies in this manner
             };
 
-            context.AddDotNetStarterRegistrationsForContext
+            context.Services.AddDotNetStarterRegistrations
             (
                 assembliesToScan: customAssemblies
             );
