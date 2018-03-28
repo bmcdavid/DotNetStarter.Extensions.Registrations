@@ -18,12 +18,13 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests
             }
 
             var registrations = GetRegistrationsFromMocks();
-            var preChange = registrations.FirstOrDefault(GetZTest).CustomLifeCycle;
-            var item = registrations.FirstOrDefault(GetZTest);
-            item.CustomLifeCycle = Lifecycle.Singleton;
+            var registration = registrations.FirstOrDefault(GetZTest);
+            var preChange = registration.CustomLifeCycle;
+            registration.CustomLifeCycle = Lifecycle.Singleton;
 
             Assert.IsNull(preChange);
-            Assert.IsTrue(registrations.FirstOrDefault(GetZTest).CustomLifeCycle == Lifecycle.Singleton);
+            Assert.IsTrue(registration.Registration.Lifecycle == Lifecycle.Transient);
+            Assert.IsTrue(registration.CustomLifeCycle == Lifecycle.Singleton);
         }
 
         [TestMethod]
