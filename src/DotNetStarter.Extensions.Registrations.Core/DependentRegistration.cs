@@ -28,5 +28,10 @@ namespace DotNetStarter.Extensions.Registrations.Core
         /// Attribute instance
         /// </summary>
         public RegistrationAttribute Registration { get; }
+
+        /// <summary>
+        /// Allows for custom lifecycle instead of attribute's selection
+        /// </summary>
+        public Lifecycle? CustomLifeCycle { get; set; }
     }
 }

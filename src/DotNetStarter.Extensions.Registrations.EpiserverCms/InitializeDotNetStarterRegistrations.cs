@@ -3,11 +3,12 @@ using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
 using EPiServer.ServiceLocation;
 using System;
+using System.Collections.Generic;
 
 namespace DotNetStarter.Extensions.Registrations.EpiserverCms
 {
     /// <summary>
-    /// Scans ass
+    /// Scans assemblies and registers RegistrationAttribute classes to Episerver service locator
     /// </summary>
     [InitializableModule]
     public class InitializeDotNetStarterRegistrations : IConfigurableModule
@@ -18,6 +19,11 @@ namespace DotNetStarter.Extensions.Registrations.EpiserverCms
         public static Func<DependentRegistration, bool> AddServiceAccessor { get; set; }
 
         /// <summary>
+        /// Allows for discovered registrations modifications
+        /// </summary>
+        public static Action<ICollection<DependentRegistration>> RegistrationFilter { get; set; }
+
+        /// <summary>
         /// Global switch to disable default module for advanced configurations
         /// </summary>
         public static bool ModuleEnabled { get; set; } = true;
@@ -26,7 +32,7 @@ namespace DotNetStarter.Extensions.Registrations.EpiserverCms
         {
             if (ModuleEnabled)
             {
-                context.Services.AddDotNetStarterRegistrations(addServiceAccessor: AddServiceAccessor);
+                context.Services.AddDotNetStarterRegistrations(addServiceAccessor: AddServiceAccessor, registrationFilter: RegistrationFilter);
             }
         }
 

@@ -23,22 +23,28 @@ namespace DotNetStarter.Extensions.Registrations.AspNetCore
         /// <param name="services"></param>
         /// <param name="assembliesToScan">Assemblies to scan for types with RegistrationAttribute,
         ///      if null Assemblies with DiscoverableAssemblyAttribute are used to filter.</param>
+        /// <param name="dependentRegistrationFactory"></param>
         /// <param name="registrationSorter">Optional custom registration sorter.</param>
         /// <returns></returns>
         public static IServiceCollection AddDotNetStarterRegistrations
         (
             this IServiceCollection services,
             IEnumerable<Assembly> assembliesToScan = null,
+            IDependentRegistrationFactory dependentRegistrationFactory = null,
             IRegistrationSorter registrationSorter = null
         )
         {
             var assemblies = assembliesToScan ??
                               AssemblyLoader()
-                                  .Where(a => a.GetCustomAttribute<DiscoverableAssemblyAttribute>() != null);
+                                .Where(a => a.GetCustomAttribute<DiscoverableAssemblyAttribute>() != null);
 
-            var sorted = (registrationSorter ?? new RegistrationSorter()).Sort(assemblies);
+            var registrations = 
+                (dependentRegistrationFactory ?? new DependentRegistrationFactory())
+                    .CreateDependentRegistrations(assemblies);
+
+            (registrationSorter ?? new RegistrationSorter()).Sort(registrations);
             
-            foreach (var t in sorted)
+            foreach (var t in registrations)
             {
                 services.Add
                 (
@@ -46,7 +52,7 @@ namespace DotNetStarter.Extensions.Registrations.AspNetCore
                     (
                         t.Registration.ServiceType,
                         t.Implementation,
-                        ConvertToServiceLifetime(t.Registration.Lifecycle)
+                        (t.CustomLifeCycle ?? t.Registration.Lifecycle).ConvertToServiceLifetime()
                     )
                 );
             }
@@ -71,7 +77,7 @@ namespace DotNetStarter.Extensions.Registrations.AspNetCore
         /// </summary>
         /// <param name="lifecycle"></param>
         /// <returns></returns>
-        public static ServiceLifetime ConvertToServiceLifetime(Lifecycle lifecycle)
+        public static ServiceLifetime ConvertToServiceLifetime(this Lifecycle lifecycle)
         {
             switch (lifecycle)
             {

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Reflection;
 
 namespace DotNetStarter.Extensions.Registrations.Core
 {
@@ -9,8 +8,8 @@ namespace DotNetStarter.Extensions.Registrations.Core
     public interface IRegistrationSorter
     {
         /// <summary>
-        /// Sorts RegistrationAttribute types from given assemblies
+        /// Sorts given registration attributes
         /// </summary>
-        IList<DependentRegistration> Sort(IEnumerable<Assembly> assemblies);
+        void Sort(ICollection<DependentRegistration> dependentRegistrations);
     }
 }
