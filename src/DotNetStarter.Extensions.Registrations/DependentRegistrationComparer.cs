@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DotNetStarter.Extensions.Registrations.Core
+namespace DotNetStarter.Extensions.Registrations
 {
     /// <summary>
     /// Sorts registrations, null attributes first

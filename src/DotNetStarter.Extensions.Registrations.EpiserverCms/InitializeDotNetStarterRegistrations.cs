@@ -1,5 +1,4 @@
-﻿using DotNetStarter.Extensions.Registrations.Core;
-using EPiServer.Framework;
+﻿using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
 using EPiServer.ServiceLocation;
 using System;

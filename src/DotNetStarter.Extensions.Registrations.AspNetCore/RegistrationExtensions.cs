@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using DotNetStarter.Abstractions;
-using DotNetStarter.Extensions.Registrations.Core;
 using Microsoft.DotNet.PlatformAbstractions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyModel;
@@ -23,7 +22,7 @@ namespace DotNetStarter.Extensions.Registrations.AspNetCore
         /// <param name="services"></param>
         /// <param name="assembliesToScan">Assemblies to scan for types with RegistrationAttribute,
         ///      if null Assemblies with DiscoverableAssemblyAttribute are used to filter.</param>
-        /// <param name="dependentRegistrationFactory"></param>
+        /// <param name="dependentRegistrationFactory">Optional custom IDependentRegistrationFacory</param>
         /// <param name="registrationSorter">Optional custom registration sorter.</param>
         /// <returns></returns>
         public static IServiceCollection AddDotNetStarterRegistrations

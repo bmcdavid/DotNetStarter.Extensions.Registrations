@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DotNetStarter.Extensions.Registrations.Core
+namespace DotNetStarter.Extensions.Registrations
 {
     /// <summary>
     /// Default dependency sorter

@@ -1,7 +1,10 @@
 using DotNetStarter.Abstractions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Text;
 
 namespace DotNetStarter.Extensions.Registrations.Core.Tests
 {
@@ -11,20 +14,37 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests
         [TestMethod]
         public void ShouldChangeLifecycle()
         {
-            // local function
-            bool GetZTest(DependentRegistration r)
-            {
-                return r.Implementation == typeof(ZTest1);
-            }
-
             var registrations = GetRegistrationsFromMocks();
-            var registration = registrations.FirstOrDefault(GetZTest);
+            var registration = registrations.FirstOrDefault(r => r.Implementation == typeof(ZTest1));
             var preChange = registration.CustomLifeCycle;
             registration.CustomLifeCycle = Lifecycle.Singleton;
 
             Assert.IsNull(preChange);
-            Assert.IsTrue(registration.Registration.Lifecycle == Lifecycle.Transient);
-            Assert.IsTrue(registration.CustomLifeCycle == Lifecycle.Singleton);
+            Assert.IsNotNull(registration.CustomLifeCycle);
+            Assert.IsTrue(registration.Registration.Lifecycle == Lifecycle.Transient);            
+            Assert.IsTrue(registrations.First(r => r.Implementation == typeof(ZTest1)).CustomLifeCycle != registration.Registration.Lifecycle);
+        }
+
+        [TestMethod]
+        public void ShouldConfigureExpression()
+        {
+            string methodName = "Configure";
+            const BindingFlags flags = BindingFlags.Public | BindingFlags.Static;// BindingFlags.NonPublic | BindingFlags.FlattenHierarchy                
+            List<Type> configurationTypes = new List<Type>
+            {
+                typeof(TestClassConfigure1),
+                typeof(TestClassConfigure2)
+            };
+            var sut = new ConfigurationExpression(new Assembly[] { configurationTypes[0].Assembly });
+
+            foreach (var type in configurationTypes)
+            {
+                MethodInfo info = type.GetMethod(methodName, flags);
+                info.Invoke(null, new object[] { sut });
+            }
+
+            Assert.IsNotNull(sut);
+            Assert.IsTrue(sut.Build().Count == 3);
         }
 
         [TestMethod]
@@ -34,6 +54,14 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests
 
             Assert.IsTrue(registrations.Count > 0);
             Assert.IsTrue(registrations.Any(r => r.Implementation == typeof(ZTest1)));
+        }
+
+        [TestMethod]
+        public void ShouldDiscoverStringBuilder()
+        {
+            var registrations = GetRegistrationsFromMocks();
+
+            Assert.IsTrue(registrations.Any(x => x.Implementation == typeof(StringBuilder)));
         }
 
         [TestMethod]
@@ -72,6 +100,27 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests
             var registrations = factory.CreateDependentRegistrations(new[] { typeof(DependentRegistrationTests).Assembly });
 
             return registrations;
+        }
+    }
+
+    public class TestClassConfigure1
+    {
+        public static void Configure(ConfigurationExpression expression)
+        {
+            expression
+                .Add(typeof(StringBuilder), typeof(StringBuilder), Lifecycle.Transient)
+                .Add(typeof(DependentRegistration));
+        }
+    }
+
+    public class TestClassConfigure2
+    {
+        public static void Configure(ConfigurationExpression expression)
+        {
+            expression
+                .Add(typeof(StringBuilder), typeof(StringBuilder), Lifecycle.Transient)
+                .Add(typeof(RegistrationAttribute))
+                .Remove(typeof(DependentRegistration));
         }
     }
 }

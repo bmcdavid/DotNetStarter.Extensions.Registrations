@@ -1,5 +1,4 @@
 ﻿using DotNetStarter.Abstractions;
-using DotNetStarter.Extensions.Registrations.Core;
 using EPiServer.ServiceLocation;
 using System;
 using System.Collections.Generic;

@@ -1,33 +1,27 @@
 ﻿using System;
 using DotNetStarter.Abstractions;
 
-namespace DotNetStarter.Extensions.Registrations.Core
+namespace DotNetStarter.Extensions.Registrations
 {
     /// <summary>
     /// Stores registration and implementation for sorting and service registration
     /// </summary>
-    public class DependentRegistration
+    public class DependentRegistration: AttributeDependentBase<RegistrationAttribute>
     {
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="implementation"></param>
         /// <param name="registration"></param>
-        public DependentRegistration(Type implementation, RegistrationAttribute registration)
+        public DependentRegistration(Type implementation, RegistrationAttribute registration) :
+            base(implementation, registration)
         {
-            Implementation = implementation;
-            Registration = registration;
         }
-
-        /// <summary>
-        /// Type with Registration Attribute
-        /// </summary>
-        public Type Implementation { get; }
 
         /// <summary>
         /// Attribute instance
         /// </summary>
-        public RegistrationAttribute Registration { get; }
+        public RegistrationAttribute Registration => base.Attribute;
 
         /// <summary>
         /// Allows for custom lifecycle instead of attribute's selection

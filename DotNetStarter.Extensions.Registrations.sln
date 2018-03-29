@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2015
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetStarter.Extensions.Registrations.Core", "src\DotNetStarter.Extensions.Registrations.Core\DotNetStarter.Extensions.Registrations.Core.csproj", "{2B012EF3-CC17-42AD-AD10-26922039EA55}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetStarter.Extensions.Registrations.AspNetCore", "src\DotNetStarter.Extensions.Registrations.AspNetCore\DotNetStarter.Extensions.Registrations.AspNetCore.csproj", "{3CF5C342-EA29-43A9-A3B6-233EB25B30DF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetStarter.Extensions.Registrations.EpiserverCms", "src\DotNetStarter.Extensions.Registrations.EpiserverCms\DotNetStarter.Extensions.Registrations.EpiserverCms.csproj", "{9B8A5C5A-6E09-486E-8701-933CCBE7F789}"
@@ -28,16 +26,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{14BD1B63
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetStarter.Extensions.Registrations.Core.Tests", "tests\DotNetStarter.Extensions.Registrations.Core.Tests\DotNetStarter.Extensions.Registrations.Core.Tests.csproj", "{73A2DD13-9825-4622-9F1B-E43008D5291F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetStarter.Extensions.Registrations", "src\DotNetStarter.Extensions.Registrations\DotNetStarter.Extensions.Registrations.csproj", "{74153365-5918-4B2A-81B9-DFB3D1A88EBD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2B012EF3-CC17-42AD-AD10-26922039EA55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2B012EF3-CC17-42AD-AD10-26922039EA55}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2B012EF3-CC17-42AD-AD10-26922039EA55}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2B012EF3-CC17-42AD-AD10-26922039EA55}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3CF5C342-EA29-43A9-A3B6-233EB25B30DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3CF5C342-EA29-43A9-A3B6-233EB25B30DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3CF5C342-EA29-43A9-A3B6-233EB25B30DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -54,6 +50,10 @@ Global
 		{73A2DD13-9825-4622-9F1B-E43008D5291F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73A2DD13-9825-4622-9F1B-E43008D5291F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73A2DD13-9825-4622-9F1B-E43008D5291F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74153365-5918-4B2A-81B9-DFB3D1A88EBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74153365-5918-4B2A-81B9-DFB3D1A88EBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74153365-5918-4B2A-81B9-DFB3D1A88EBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74153365-5918-4B2A-81B9-DFB3D1A88EBD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

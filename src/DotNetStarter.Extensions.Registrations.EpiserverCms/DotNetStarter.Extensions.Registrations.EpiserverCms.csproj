@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DotNetStarter.Extensions.Registrations.Core\DotNetStarter.Extensions.Registrations.Core.csproj" />
+    <ProjectReference Include="..\DotNetStarter.Extensions.Registrations\DotNetStarter.Extensions.Registrations.csproj" />
   </ItemGroup>
 
   <ItemGroup>

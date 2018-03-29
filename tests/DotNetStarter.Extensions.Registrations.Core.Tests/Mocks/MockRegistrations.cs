@@ -1,4 +1,5 @@
 ﻿using DotNetStarter.Abstractions;
+using System.Text;
 
 namespace DotNetStarter.Extensions.Registrations.Core.Tests
 {
@@ -10,4 +11,13 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests
 
     [Registration(typeof(ZTest1))]
     public class ATest2 : ZTest1 { }
+
+    [DependencyConfiguration]
+    public class ExternalConfiguration
+    {
+        public static void Configure(ConfigurationExpression configure)
+        {
+            configure.Add(typeof(StringBuilder));
+        }
+    }
 }

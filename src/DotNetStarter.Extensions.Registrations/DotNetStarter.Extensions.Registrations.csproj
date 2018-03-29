@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <ProjectName>DotNetStarter.Extensions.Registrations.Core</ProjectName>
-    <TargetFrameworks>net45;net461;netstandard1.6</TargetFrameworks>
+    <ProjectName>DotNetStarter.Extensions.Registrations</ProjectName>
+    <TargetFrameworks>net45;netstandard1.6</TargetFrameworks>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(ProjectName).xml</DocumentationFile>
     <SignAssembly>True</SignAssembly>

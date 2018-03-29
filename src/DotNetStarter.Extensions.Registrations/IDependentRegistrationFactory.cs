@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 
-namespace DotNetStarter.Extensions.Registrations.Core
+namespace DotNetStarter.Extensions.Registrations
 {
     /// <summary>
     /// Creates DependentRegistrations from given assemblies
