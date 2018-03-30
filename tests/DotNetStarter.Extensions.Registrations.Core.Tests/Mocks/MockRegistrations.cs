@@ -15,7 +15,7 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests.Mocks
     [DependencyConfiguration]
     public class ExternalConfiguration
     {
-        public static void Configure(DependencyConfigurationExpression configure)
+        public static void Configure(IDependencyConfigurationExpression configure)
         {
             configure.AddTransient<StringBuilder>();
         }

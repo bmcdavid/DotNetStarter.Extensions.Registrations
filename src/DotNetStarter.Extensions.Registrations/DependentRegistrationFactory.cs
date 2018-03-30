@@ -29,9 +29,8 @@ namespace DotNetStarter.Extensions.Registrations
                 .SelectMany(ConvertToDependentRegistrations)
                 .ToList();
 
-            var discoveredRegistrations =
-                new ReadOnlyCollection<DependentRegistration>(registrations.OfType<DependentRegistration>().ToList());
-            var configureExpression = new DependencyConfigurationExpression(readonlyAssemblies, discoveredRegistrations);
+            var discoveredRegistrations = new ReadOnlyCollection<DependentRegistration>(registrations.OfType<DependentRegistration>().ToList());
+            var configureExpression = new DependencyConfigurationExpression(readonlyAssemblies);
             var externals = BuildExternalRegistrations(registrations, configureExpression);
 
             return discoveredRegistrations.Union(externals).ToList();

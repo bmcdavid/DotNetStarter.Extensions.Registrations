@@ -42,7 +42,7 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests
 
             for (var i = 0; i < 1; i++)
             {
-                sut = new DependencyConfigurationExpression(new ReadOnlyCollection<Assembly>(assemblyList), null);
+                sut = new DependencyConfigurationExpression(new ReadOnlyCollection<Assembly>(assemblyList));
 
                 foreach (var type in configurationTypes)
                 {
@@ -113,7 +113,7 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests
 
     public class TestClassConfigure1
     {
-        public static void Configure(DependencyConfigurationExpression expression)
+        public static void Configure(IDependencyConfigurationExpression expression)
         {
             expression
                 .Add(typeof(StringBuilder), typeof(StringBuilder))
@@ -123,7 +123,7 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests
 
     public class TestClassConfigure2
     {
-        public static void Configure(DependencyConfigurationExpression expression)
+        public static void Configure(IDependencyConfigurationExpression expression)
         {
             expression
                 .AddTransient<RegistrationAttribute>()

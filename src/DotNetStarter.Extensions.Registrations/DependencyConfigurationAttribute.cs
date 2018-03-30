@@ -1,15 +1,15 @@
-﻿using DotNetStarter.Abstractions;
+﻿//todo: move to registrations package
 
-namespace DotNetStarter.Extensions.Registrations
+namespace DotNetStarter.Abstractions
 {
     /// <summary>
     /// Add to classes that want to extend the registrations
-    /// <para>IMPORTANT: Classes with this attribute require public static void modifier and accept one argument of type DependencyConfigurationExpression</para>
+    /// <para>IMPORTANT: Classes with this attribute require public static void modifier and accept one argument of type IDependencyConfigurationExpression</para>
     /// </summary>
     public class DependencyConfigurationAttribute : StartupDependencyBaseAttribute
     {
         /// <summary>
-        /// public static void method in class to invoke, must have one argument of type DependencyConfigurationExpression
+        /// public static void method in class to invoke, must have one argument of type IDependencyConfigurationExpression
         /// </summary>
         public string MethodName { get; }
 
