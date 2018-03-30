@@ -4,7 +4,7 @@
     <ProjectName>DotNetStarter.Extensions.Registrations.EpiserverCms</ProjectName>
     <TargetFramework>net461</TargetFramework>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(ProjectName).xml</DocumentationFile>    
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>..\..\dotnetstarter.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>

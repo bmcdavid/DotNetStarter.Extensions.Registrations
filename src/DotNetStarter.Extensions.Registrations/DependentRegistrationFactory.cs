@@ -1,38 +1,40 @@
 ﻿using DotNetStarter.Abstractions;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 
 namespace DotNetStarter.Extensions.Registrations
 {
     /// <summary>
-    /// Creates dependent registrations from given assemblies
+    /// Creates dependent registrations from given discoveredAssemblies
     /// </summary>
     public class DependentRegistrationFactory : IDependentRegistrationFactory
     {
         /// <summary>
-        /// Defines the default behavior when getting an assemblies types, the default is ExportsOnly
+        /// Defines the default behavior when getting an discoveredAssemblies types, the default is ExportsOnly
         /// </summary>
         protected virtual ExportsType DefaultExportsType => ExportsType.ExportsOnly;
 
         /// <summary>
-        /// Creates dependent registrations from given assemblies
+        /// Creates dependent registrations from given discoveredAssemblies
         /// </summary>
         public virtual ICollection<DependentRegistration> CreateDependentRegistrations(IEnumerable<Assembly> assemblies)
         {
-            var registrations = assemblies
+            var assemblyList = assemblies.ToList();
+            var readonlyAssemblies = new ReadOnlyCollection<Assembly>(assemblyList);
+            var registrations = readonlyAssemblies
                 .SelectMany(GetExportedTypes)
                 .SelectMany(ConvertToDependentRegistrations)
                 .ToList();
 
-            var configureExpression = new ConfigurationExpression(assemblies);
+            var discoveredRegistrations =
+                new ReadOnlyCollection<DependentRegistration>(registrations.OfType<DependentRegistration>().ToList());
+            var configureExpression = new DependencyConfigurationExpression(readonlyAssemblies, discoveredRegistrations);
             var externals = BuildExternalRegistrations(registrations, configureExpression);
 
-            return registrations
-                .OfType<DependentRegistration>()
-                .Union(externals)
-                .ToList();
+            return discoveredRegistrations.Union(externals).ToList();
         }
 
         /// <summary>
@@ -42,7 +44,7 @@ namespace DotNetStarter.Extensions.Registrations
         /// <param name="configurationExpression"></param>
         /// <returns></returns>
         protected virtual IEnumerable<DependentRegistration> BuildExternalRegistrations(ICollection<AttributeDependentBase> attributes,
-            ConfigurationExpression configurationExpression)
+            DependencyConfigurationExpression configurationExpression)
         {
             const BindingFlags flags = BindingFlags.Public | BindingFlags.Static;
 
@@ -50,10 +52,11 @@ namespace DotNetStarter.Extensions.Registrations
             {
                 try
                 {
-                    MethodInfo info = external.Implementation.GetTypeInfo()
+                    var info = external.Implementation.GetTypeInfo()
                         .GetMethod(external.Configurator.MethodName, flags);
 
-                    info.Invoke(null, new object[] { configurationExpression });
+                    // ReSharper disable once PossibleNullReferenceException
+                    info.Invoke(null, new object[] {configurationExpression});
                 }
                 catch (Exception e)
                 {
@@ -74,17 +77,18 @@ namespace DotNetStarter.Extensions.Registrations
             var type = t.GetTypeInfo();
             if (type.IsAbstract || type.IsInterface) return Enumerable.Empty<DependentRegistration>();
             var attrs = type.GetCustomAttributes<StartupDependencyBaseAttribute>(true);
-            List<AttributeDependentBase> attrList = new List<AttributeDependentBase>();
+            var attrList = new List<AttributeDependentBase>();
             foreach (var attr in attrs)
             {
                 //todo: refactor if another case is needed
-                if (attr is RegistrationAttribute registration)
+                switch (attr)
                 {
-                    attrList.Add(new DependentRegistration(t, registration));
-                }
-                else if (attr is DependencyConfigurationAttribute externalDependencyRegistration)
-                {
-                    attrList.Add(new DependencyConfigurationRegistration(t, externalDependencyRegistration));
+                    case RegistrationAttribute registration:
+                        attrList.Add(new DependentRegistration(t, registration));
+                        break;
+                    case DependencyConfigurationAttribute externalDependencyRegistration:
+                        attrList.Add(new DependencyConfigurationRegistration(t, externalDependencyRegistration));
+                        break;
                 }
             }
 

@@ -4,7 +4,7 @@
     <ProjectName>DotNetStarter.Extensions.Registrations.AspNetCore</ProjectName>
     <TargetFramework>netstandard1.6</TargetFramework>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(ProjectName).xml</DocumentationFile>    
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>..\..\dotnetstarter.snk</AssemblyOriginatorKeyFile>    
   </PropertyGroup>

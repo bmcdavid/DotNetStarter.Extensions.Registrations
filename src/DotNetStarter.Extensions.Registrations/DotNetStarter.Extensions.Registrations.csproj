@@ -4,7 +4,7 @@
     <ProjectName>DotNetStarter.Extensions.Registrations</ProjectName>
     <TargetFrameworks>net45;netstandard1.6</TargetFrameworks>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(ProjectName).xml</DocumentationFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>..\..\dotnetstarter.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>

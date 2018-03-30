@@ -4,12 +4,12 @@ namespace DotNetStarter.Extensions.Registrations
 {
     /// <summary>
     /// Add to classes that want to extend the registrations
-    /// <para>IMPORTANT: Classes with this attribute require public static void modifier and accept one argument of type ConfigureExpression</para>
+    /// <para>IMPORTANT: Classes with this attribute require public static void modifier and accept one argument of type DependencyConfigurationExpression</para>
     /// </summary>
     public class DependencyConfigurationAttribute : StartupDependencyBaseAttribute
     {
         /// <summary>
-        /// public static void method in class to invoke, must have one argument of type ConfigureExpression
+        /// public static void method in class to invoke, must have one argument of type DependencyConfigurationExpression
         /// </summary>
         public string MethodName { get; }
 
@@ -17,7 +17,7 @@ namespace DotNetStarter.Extensions.Registrations
         /// Constructor
         /// </summary>
         /// <param name="methodName">If name isn't given, it defaults to 'Configure'</param>
-        public DependencyConfigurationAttribute(string methodName = null) : base()
+        public DependencyConfigurationAttribute(string methodName = null)
         {
             MethodName = string.IsNullOrWhiteSpace(methodName) ? "Configure" : methodName;
         }

@@ -2,9 +2,11 @@ using DotNetStarter.Abstractions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using DotNetStarter.Extensions.Registrations.Core.Tests.Mocks;
 
 namespace DotNetStarter.Extensions.Registrations.Core.Tests
 {
@@ -16,11 +18,11 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests
         {
             var registrations = GetRegistrationsFromMocks();
             var registration = registrations.FirstOrDefault(r => r.Implementation == typeof(ZTest1));
-            var preChange = registration.CustomLifeCycle;
-            registration.CustomLifeCycle = Lifecycle.Singleton;
+            var preChange = registration?.CustomLifeCycle;
+            if(registration != null) registration.CustomLifeCycle = Lifecycle.Singleton;
 
             Assert.IsNull(preChange);
-            Assert.IsNotNull(registration.CustomLifeCycle);
+            Assert.IsNotNull(registration?.CustomLifeCycle);
             Assert.IsTrue(registration.Registration.Lifecycle == Lifecycle.Transient);            
             Assert.IsTrue(registrations.First(r => r.Implementation == typeof(ZTest1)).CustomLifeCycle != registration.Registration.Lifecycle);
         }
@@ -28,23 +30,29 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests
         [TestMethod]
         public void ShouldConfigureExpression()
         {
-            string methodName = "Configure";
+            const string methodName = "Configure";
             const BindingFlags flags = BindingFlags.Public | BindingFlags.Static;// BindingFlags.NonPublic | BindingFlags.FlattenHierarchy                
-            List<Type> configurationTypes = new List<Type>
+            var configurationTypes = new List<Type>
             {
                 typeof(TestClassConfigure1),
                 typeof(TestClassConfigure2)
             };
-            var sut = new ConfigurationExpression(new Assembly[] { configurationTypes[0].Assembly });
+            var assemblyList = new List<Assembly> {configurationTypes[0].Assembly};
+            DependencyConfigurationExpression sut = null;
 
-            foreach (var type in configurationTypes)
+            for (var i = 0; i < 1; i++)
             {
-                MethodInfo info = type.GetMethod(methodName, flags);
-                info.Invoke(null, new object[] { sut });
+                sut = new DependencyConfigurationExpression(new ReadOnlyCollection<Assembly>(assemblyList), null);
+
+                foreach (var type in configurationTypes)
+                {
+                    var info = type.GetMethod(methodName, flags);
+                    info.Invoke(null, new object[] {sut});
+                }
             }
 
             Assert.IsNotNull(sut);
-            Assert.IsTrue(sut.Build().Count == 3);
+            Assert.IsTrue(sut.Build().Count == 4);
         }
 
         [TestMethod]
@@ -94,7 +102,7 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests
             Assert.IsTrue(test1Index > test2Index, "Failed sorted");
         }
 
-        private ICollection<DependentRegistration> GetRegistrationsFromMocks()
+        private static ICollection<DependentRegistration> GetRegistrationsFromMocks()
         {
             var factory = new DependentRegistrationFactory();
             var registrations = factory.CreateDependentRegistrations(new[] { typeof(DependentRegistrationTests).Assembly });
@@ -105,22 +113,21 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests
 
     public class TestClassConfigure1
     {
-        public static void Configure(ConfigurationExpression expression)
+        public static void Configure(DependencyConfigurationExpression expression)
         {
             expression
-                .Add(typeof(StringBuilder), typeof(StringBuilder), Lifecycle.Transient)
+                .Add(typeof(StringBuilder), typeof(StringBuilder))
                 .Add(typeof(DependentRegistration));
         }
     }
 
     public class TestClassConfigure2
     {
-        public static void Configure(ConfigurationExpression expression)
+        public static void Configure(DependencyConfigurationExpression expression)
         {
             expression
-                .Add(typeof(StringBuilder), typeof(StringBuilder), Lifecycle.Transient)
-                .Add(typeof(RegistrationAttribute))
-                .Remove(typeof(DependentRegistration));
+                .AddTransient<RegistrationAttribute>()
+                .AddTransient<IList<object>, List<object>>();
         }
     }
 }

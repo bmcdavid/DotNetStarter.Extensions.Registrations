@@ -1,7 +1,7 @@
-﻿using DotNetStarter.Abstractions;
-using System.Text;
+﻿using System.Text;
+using DotNetStarter.Abstractions;
 
-namespace DotNetStarter.Extensions.Registrations.Core.Tests
+namespace DotNetStarter.Extensions.Registrations.Core.Tests.Mocks
 {
     /// <summary>
     /// Shows how to oeverride, and first class for unsorted test
@@ -15,9 +15,9 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests
     [DependencyConfiguration]
     public class ExternalConfiguration
     {
-        public static void Configure(ConfigurationExpression configure)
+        public static void Configure(DependencyConfigurationExpression configure)
         {
-            configure.Add(typeof(StringBuilder));
+            configure.AddTransient<StringBuilder>();
         }
     }
 }

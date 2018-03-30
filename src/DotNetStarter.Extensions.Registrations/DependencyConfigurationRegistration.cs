@@ -20,6 +20,6 @@ namespace DotNetStarter.Extensions.Registrations
         /// <summary>
         /// Attribute with method to invoke
         /// </summary>
-        public DependencyConfigurationAttribute Configurator => base.Attribute;
+        public DependencyConfigurationAttribute Configurator => Attribute;
     }
 }

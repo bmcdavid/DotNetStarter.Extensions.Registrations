@@ -3,7 +3,7 @@
 namespace DotNetStarter.Extensions.Registrations
 {
     /// <summary>
-    /// Sorts RegistrationAttribute types from given assemblies
+    /// Sorts RegistrationAttribute types from given discoveredAssemblies
     /// </summary>
     public interface IRegistrationSorter
     {

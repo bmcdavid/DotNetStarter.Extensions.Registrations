@@ -17,11 +17,11 @@ namespace DotNetStarter.Extensions.Registrations.AspNetCore
     public static class RegistrationExtensions
     {
         /// <summary>
-        /// Adds classes that contain RegistrationAttribute in given assemblies or assemblies with DiscoverableAssemblyAttribute assembly attribute
+        /// Adds classes that contain RegistrationAttribute in given discoveredAssemblies or discoveredAssemblies with DiscoverableAssemblyAttribute assembly attribute
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="assembliesToScan">Assemblies to scan for types with RegistrationAttribute,
-        ///      if null Assemblies with DiscoverableAssemblyAttribute are used to filter.</param>
+        /// <param name="assembliesToScan">DiscoveredAssemblies to scan for types with RegistrationAttribute,
+        ///      if null DiscoveredAssemblies with DiscoverableAssemblyAttribute are used to filter.</param>
         /// <param name="dependentRegistrationFactory">Optional custom IDependentRegistrationFacory</param>
         /// <param name="registrationSorter">Optional custom registration sorter.</param>
         /// <returns></returns>
@@ -60,7 +60,7 @@ namespace DotNetStarter.Extensions.Registrations.AspNetCore
         }
         
         /// <summary>
-        /// Gets project assemblies from the dependency context
+        /// Gets project discoveredAssemblies from the dependency context
         /// </summary>
         /// <returns></returns>
         public static IEnumerable<Assembly> AssemblyLoader()

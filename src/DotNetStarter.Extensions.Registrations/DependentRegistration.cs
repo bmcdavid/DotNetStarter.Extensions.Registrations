@@ -21,7 +21,7 @@ namespace DotNetStarter.Extensions.Registrations
         /// <summary>
         /// Attribute instance
         /// </summary>
-        public RegistrationAttribute Registration => base.Attribute;
+        public RegistrationAttribute Registration => Attribute;
 
         /// <summary>
         /// Allows for custom lifecycle instead of attribute's selection

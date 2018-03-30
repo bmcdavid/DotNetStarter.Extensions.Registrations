@@ -16,8 +16,8 @@ namespace DotNetStarter.Extensions.Registrations.EpiserverCms
         /// Add classes with [Registration] attributes to Episerver Service Locator.
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="assembliesToScan">Assemblies to scan for types with RegistrationAttribute,
-        ///      if null Assemblies with DiscoverableAssemblyAttribute are used to filter.</param>
+        /// <param name="assembliesToScan">DiscoveredAssemblies to scan for types with RegistrationAttribute,
+        ///      if null DiscoveredAssemblies with DiscoverableAssemblyAttribute are used to filter.</param>
         /// <param name="dependentRegistrationFactory">Optional custom IDependentRegistrationFacory</param>
         /// <param name="registrationSorter">Optional custom registration sorter.</param>
         /// <param name="addServiceAccessor">Optional function to determine if a service accessor is needed for Inject&lt;T> usages</param>

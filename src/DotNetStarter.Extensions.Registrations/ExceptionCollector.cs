@@ -9,7 +9,7 @@ namespace DotNetStarter.Extensions.Registrations
     /// </summary>
     public static class ExceptionCollector
     {
-        private static readonly List<Exception> _exceptions = new List<Exception>();
+        private static readonly List<Exception> Exceptions = new List<Exception>();
 
         /// <summary>
         /// Adds exception
@@ -17,13 +17,13 @@ namespace DotNetStarter.Extensions.Registrations
         /// <param name="e"></param>
         public static void AddException(Exception e)
         {
-            _exceptions.Add(e);
+            Exceptions.Add(e);
         }
 
         /// <summary>
         /// Exception list
         /// </summary>
         /// <returns></returns>
-        public static ICollection<Exception> GetExceptions() => new ReadOnlyCollection<Exception>(_exceptions);
+        public static IReadOnlyCollection<Exception> GetExceptions() => new ReadOnlyCollection<Exception>(Exceptions);
     }
 }
