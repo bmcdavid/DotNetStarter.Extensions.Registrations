@@ -53,6 +53,7 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests
 
             Assert.IsNotNull(sut);
             Assert.IsTrue(sut.Build().Count == 4);
+            Assert.IsTrue(sut.Build().Any(x => x.Implementation == typeof(List<>)));
         }
 
         [TestMethod]
@@ -116,8 +117,8 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests
         public static void Configure(IDependencyConfigurationExpression expression)
         {
             expression
-                .Add(typeof(StringBuilder), typeof(StringBuilder))
-                .Add(typeof(DependentRegistration));
+                .Add(typeof(IList<>), typeof(List<>))
+                .Add(typeof(StringBuilder));
         }
     }
 

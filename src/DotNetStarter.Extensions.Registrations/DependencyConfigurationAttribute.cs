@@ -1,5 +1,6 @@
-﻿//todo: move to registrations package
-
+﻿// todo: move to registrations package
+// todo: add documentation about types that make good candidates, ie classes with no primitive arguments (string, int, bool, enum, etc)
+//  at least within the greediest constructor
 namespace DotNetStarter.Abstractions
 {
     /// <summary>
