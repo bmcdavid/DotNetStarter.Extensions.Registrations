@@ -13,9 +13,6 @@
     <PackageReference Include="DotNetStarter.RegistrationAbstractions" Version="1.1.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="1.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="1.1.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\DotNetStarter.Extensions.Registrations\DotNetStarter.Extensions.Registrations.csproj" />
   </ItemGroup>
 

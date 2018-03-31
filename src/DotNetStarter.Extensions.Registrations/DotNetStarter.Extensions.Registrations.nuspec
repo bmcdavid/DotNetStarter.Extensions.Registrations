@@ -7,7 +7,7 @@
     <owners>Brad McDavid</owners>
     <projectUrl>https://github.com/bmcdavid/DotNetStarter.Extensions.Registrations</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Core extensions functionality, add ability to register external dependencies.</description>
+    <description>Core extensions functionality, adds ability to register external dependencies to an IOC/DI container.</description>
     <releaseNotes>Initial release.</releaseNotes>
     <copyright>Copyright $year$</copyright>
     <tags>di dependencyinjection ioc</tags>

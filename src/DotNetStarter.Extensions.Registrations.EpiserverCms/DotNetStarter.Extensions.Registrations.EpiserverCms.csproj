@@ -11,18 +11,8 @@
 
   <ItemGroup>
     <PackageReference Include="DotNetStarter.RegistrationAbstractions" Version="1.1.0" />
-    <PackageReference Include="EPiServer.Framework" Version="11.1.0" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="EPiServer.Framework" Version="11.1.0" />  
     <ProjectReference Include="..\DotNetStarter.Extensions.Registrations\DotNetStarter.Extensions.Registrations.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="EPiServer.Framework">
-      <HintPath>EPiServer.Framework</HintPath>
-    </Reference>
-    <Reference Include="System.Web" />
   </ItemGroup>
 
 </Project>

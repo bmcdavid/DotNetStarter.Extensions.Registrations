@@ -1,8 +1,7 @@
-﻿using System;
+﻿using DotNetStarter.Abstractions;
+using System;
 
-// todo: move to registrations package
-
-namespace DotNetStarter.Abstractions
+namespace DotNetStarter.Extensions.Registrations
 {
     /// <summary>
     /// Configuration extensions for generic types

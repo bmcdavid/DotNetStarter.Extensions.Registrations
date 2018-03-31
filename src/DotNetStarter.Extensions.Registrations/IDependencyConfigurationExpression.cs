@@ -1,10 +1,9 @@
-﻿using System;
+﻿using DotNetStarter.Abstractions;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-//todo: move to registrations package
-
-namespace DotNetStarter.Abstractions
+namespace DotNetStarter.Extensions.Registrations
 {
     /// <summary>
     /// Allows additional dependency configurations
@@ -17,7 +16,7 @@ namespace DotNetStarter.Abstractions
         IEnumerable<Assembly> DiscoveredAssemblies { get; }
 
         /// <summary>
-        /// Adds a dependency for registration
+        /// Adds a dependency for registration, generics registration are available via extensions in the DotNetStarter.Extensions.Registrations namespace.
         /// </summary>
         /// <param name="serviceType"></param>
         /// <param name="implementationType"></param>

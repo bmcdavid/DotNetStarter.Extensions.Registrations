@@ -1,12 +1,14 @@
-﻿// todo: move to registrations package
-// todo: add documentation about types that make good candidates, ie classes with no primitive arguments (string, int, bool, enum, etc)
-//  at least within the greediest constructor
-namespace DotNetStarter.Abstractions
+﻿using DotNetStarter.Abstractions;
+
+namespace DotNetStarter.Extensions.Registrations
 {
     /// <summary>
-    /// Add to classes that want to extend the registrations
-    /// <para>IMPORTANT: Classes with this attribute require public static void modifier and accept one argument of type IDependencyConfigurationExpression</para>
+    /// Advanced usage for adding types to extend registrations to external dependencies.
+    /// <para>IMPORTANT: Classes with this attribute require a method with 'public static void' modifiers and accept one argument of type 'DotNetStarter.Extensions.Registrations.IDependencyConfigurationExpression'</para>
     /// </summary>
+    /// <remarks>
+    /// When registering dependencies be sure the types include a public constructor (many DI containers select the greediest public constructor by default), avoid injecting types such as strings, numbers (int|long|float|decimal), bools, enums. In those cases, introduce a factory to create the dependency and inject the factory to create the object instance. Also be sure to register any additional dependencies the registering type needs.
+    /// </remarks>
     public class DependencyConfigurationAttribute : StartupDependencyBaseAttribute
     {
         /// <summary>
@@ -17,7 +19,7 @@ namespace DotNetStarter.Abstractions
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="methodName">If name isn't given, it defaults to 'Configure'</param>
+        /// <param name="methodName">Method name to invoke, default value is "Configure"</param>
         public DependencyConfigurationAttribute(string methodName = null)
         {
             MethodName = string.IsNullOrWhiteSpace(methodName) ? "Configure" : methodName;
