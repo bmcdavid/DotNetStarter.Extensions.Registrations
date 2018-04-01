@@ -55,7 +55,7 @@ namespace DotNetStarter.Extensions.Registrations
                         .GetMethod(external.Configurator.MethodName, flags);
 
                     // ReSharper disable once PossibleNullReferenceException
-                    info.Invoke(null, new object[] {configurationExpression});
+                    info.Invoke(null, new object[] { configurationExpression });
                 }
                 catch (Exception e)
                 {
@@ -79,15 +79,14 @@ namespace DotNetStarter.Extensions.Registrations
             var attrList = new List<AttributeDependentBase>();
             foreach (var attr in attrs)
             {
-                //todo: refactor if another case is needed
-                switch (attr)
+                if (attr is RegistrationAttribute registration)
                 {
-                    case RegistrationAttribute registration:
-                        attrList.Add(new DependentRegistration(t, registration));
-                        break;
-                    case DependencyConfigurationAttribute externalDependencyRegistration:
-                        attrList.Add(new DependencyConfigurationRegistration(t, externalDependencyRegistration));
-                        break;
+                    attrList.Add(new DependentRegistration(t, registration));
+                }
+
+                if (attr is DependencyConfigurationAttribute dependencyConfiguration)
+                {
+                    attrList.Add(new DependencyConfigurationRegistration(t, dependencyConfiguration));
                 }
             }
 
