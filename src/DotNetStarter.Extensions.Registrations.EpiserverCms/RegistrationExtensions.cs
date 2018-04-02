@@ -1,5 +1,4 @@
 ﻿using DotNetStarter.Abstractions;
-using DotNetStarter.Extensions.Registrations.Core;
 using EPiServer.ServiceLocation;
 using System;
 using System.Collections.Generic;
@@ -17,28 +16,39 @@ namespace DotNetStarter.Extensions.Registrations.EpiserverCms
         /// Add classes with [Registration] attributes to Episerver Service Locator.
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="assembliesToScan">Assemblies to scan for types with RegistrationAttribute,
-        ///      if null Assemblies with DiscoverableAssemblyAttribute are used to filter.</param>
+        /// <param name="assembliesToScan">DiscoveredAssemblies to scan for types with RegistrationAttribute,
+        ///      if null DiscoveredAssemblies with DiscoverableAssemblyAttribute are used to filter.</param>
+        /// <param name="dependentRegistrationFactory">Optional custom IDependentRegistrationFacory</param>
         /// <param name="registrationSorter">Optional custom registration sorter.</param>
         /// <param name="addServiceAccessor">Optional function to determine if a service accessor is needed for Inject&lt;T> usages</param>
-        public static void AddDotNetStarterRegistrations(this IServiceConfigurationProvider services,
+        /// <param name="registrationFilter">Optional action to modify regististrations, add/remove or changelifestyle.</param>
+        public static void AddDotNetStarterRegistrations
+        (
+            this IServiceConfigurationProvider services,
             IEnumerable<Assembly> assembliesToScan = null,
+            IDependentRegistrationFactory dependentRegistrationFactory = null,
             IRegistrationSorter registrationSorter = null,
-            Func<DependentRegistration, bool> addServiceAccessor = null)
+            Func<DependentRegistration, bool> addServiceAccessor = null,
+            Action<ICollection<DependentRegistration>> registrationFilter = null
+        )
         {
             var assemblies = assembliesToScan ??
                              AssemblyLoader()
                                  .Where(a => a.GetCustomAttribute<DiscoverableAssemblyAttribute>() != null);
+            var registrations = 
+                (dependentRegistrationFactory ?? new DependentRegistrationFactory()).
+                    CreateDependentRegistrations(assemblies);
 
-            var sorted = (registrationSorter ?? new RegistrationSorter()).Sort(assemblies);
+            registrationFilter?.Invoke(registrations);
+            (registrationSorter ?? new RegistrationSorter()).Sort(registrations);
 
-            foreach (var t in sorted)
+            foreach (var t in registrations)
             {
                 var service = services.Add
                 (
                     t.Registration.ServiceType,
                     t.Implementation,
-                    ConvertToServiceLifetime(t.Registration.Lifecycle)
+                    (t.CustomLifeCycle ?? t.Registration.Lifecycle).ConvertToServiceLifetime()
                 );
 
                 if (addServiceAccessor?.Invoke(t) == true)
@@ -62,7 +72,7 @@ namespace DotNetStarter.Extensions.Registrations.EpiserverCms
         /// </summary>
         /// <param name="lifecycle"></param>
         /// <returns></returns>
-        public static ServiceInstanceScope ConvertToServiceLifetime(Lifecycle lifecycle)
+        public static ServiceInstanceScope ConvertToServiceLifetime(this Lifecycle lifecycle)
         {
             switch (lifecycle)
             {

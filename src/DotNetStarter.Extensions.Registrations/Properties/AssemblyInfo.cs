@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 
-[assembly: AssemblyTitle("DotNetStarter.Extensions.Registrations.EpiserverCms")]
-[assembly: AssemblyProduct("DotNetStarter.Extensions.Registrations.EpiserverCms")]
+[assembly: AssemblyTitle("DotNetStarter.Extensions.Registrations")]
+[assembly: AssemblyProduct("DotNetStarter.Extensions.Registrations")]
 [assembly: AssemblyCopyright("Copyright © {year}")]
 [assembly: AssemblyVersion("1.0.0.0")]// don't change
 [assembly: AssemblyFileVersion("1.0.0.0")]// don't change

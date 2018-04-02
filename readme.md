@@ -78,8 +78,28 @@ namespace Example
 }
 ```
 
-## Example Service
+## Advanced Usage
+Registering external dependencies is now possible using class decorated with the [DependencyConfiguration] attribute. This class must have a metho 'public static void' modifiers and take one argument of IDependencyConfigurationExpression. Example below:
 
+```cs
+// using DotNetStarter.Extensions.Registrations;
+[DependencyConfiguration]
+public class ExternalConfiguration
+{
+    public static void Configure(IDependencyConfigurationExpression configure)
+    {
+        configure.AddTransient<SomeExternalClass>();
+    }
+}
+```
+**Note:** When registering dependencies be sure the class types include a public constructor (many DI containers select the greediest public constructor by default), avoid injecting types such as strings, numbers (int|long|float|decimal), bools, enums. In those cases, introduce a factory or settings object to create the dependency and inject it instead. Also be sure to register any additional dependencies the registering type requires in the constructor.
+
+### Changing the lifecycle from default
+Sometimes the lifestyle may need to be adjusted from the desired state configured in the registration attribute. In these cases application owners can change them using either ASP.Net Core IServiceCollection after executing the AddDotNetStarterRegistrations extension. 
+
+In Episerver a custom Action<ICollection<DependentRegistration>> can be passed to the extension following the custom Episerver example above where the action can modify the lifecycle.
+
+## Example Service
 To create an injectable service in a project or NuGet package, add a reference to DotNetStarter.RegistrationAbstractions. Then create a service abstraction, example below:
 
 ```cs

@@ -4,7 +4,7 @@
     <ProjectName>DotNetStarter.Extensions.Registrations.AspNetCore</ProjectName>
     <TargetFramework>netstandard1.6</TargetFramework>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(ProjectName).xml</DocumentationFile>    
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>..\..\dotnetstarter.snk</AssemblyOriginatorKeyFile>    
   </PropertyGroup>
@@ -13,10 +13,7 @@
     <PackageReference Include="DotNetStarter.RegistrationAbstractions" Version="1.1.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="1.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="1.1.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\DotNetStarter.Extensions.Registrations.Core\DotNetStarter.Extensions.Registrations.Core.csproj" />
+    <ProjectReference Include="..\DotNetStarter.Extensions.Registrations\DotNetStarter.Extensions.Registrations.csproj" />
   </ItemGroup>
 
 </Project>

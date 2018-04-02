@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using DotNetStarter.Abstractions;
-using DotNetStarter.Extensions.Registrations.Core;
 using Microsoft.DotNet.PlatformAbstractions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyModel;
@@ -18,27 +17,33 @@ namespace DotNetStarter.Extensions.Registrations.AspNetCore
     public static class RegistrationExtensions
     {
         /// <summary>
-        /// Adds classes that contain RegistrationAttribute in given assemblies or assemblies with DiscoverableAssemblyAttribute assembly attribute
+        /// Adds classes that contain RegistrationAttribute in given discoveredAssemblies or discoveredAssemblies with DiscoverableAssemblyAttribute assembly attribute
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="assembliesToScan">Assemblies to scan for types with RegistrationAttribute,
-        ///      if null Assemblies with DiscoverableAssemblyAttribute are used to filter.</param>
+        /// <param name="assembliesToScan">DiscoveredAssemblies to scan for types with RegistrationAttribute,
+        ///      if null DiscoveredAssemblies with DiscoverableAssemblyAttribute are used to filter.</param>
+        /// <param name="dependentRegistrationFactory">Optional custom IDependentRegistrationFacory</param>
         /// <param name="registrationSorter">Optional custom registration sorter.</param>
         /// <returns></returns>
         public static IServiceCollection AddDotNetStarterRegistrations
         (
             this IServiceCollection services,
             IEnumerable<Assembly> assembliesToScan = null,
+            IDependentRegistrationFactory dependentRegistrationFactory = null,
             IRegistrationSorter registrationSorter = null
         )
         {
             var assemblies = assembliesToScan ??
                               AssemblyLoader()
-                                  .Where(a => a.GetCustomAttribute<DiscoverableAssemblyAttribute>() != null);
+                                .Where(a => a.GetCustomAttribute<DiscoverableAssemblyAttribute>() != null);
 
-            var sorted = (registrationSorter ?? new RegistrationSorter()).Sort(assemblies);
+            var registrations = 
+                (dependentRegistrationFactory ?? new DependentRegistrationFactory())
+                    .CreateDependentRegistrations(assemblies);
+
+            (registrationSorter ?? new RegistrationSorter()).Sort(registrations);
             
-            foreach (var t in sorted)
+            foreach (var t in registrations)
             {
                 services.Add
                 (
@@ -46,7 +51,7 @@ namespace DotNetStarter.Extensions.Registrations.AspNetCore
                     (
                         t.Registration.ServiceType,
                         t.Implementation,
-                        ConvertToServiceLifetime(t.Registration.Lifecycle)
+                        (t.CustomLifeCycle ?? t.Registration.Lifecycle).ConvertToServiceLifetime()
                     )
                 );
             }
@@ -55,7 +60,7 @@ namespace DotNetStarter.Extensions.Registrations.AspNetCore
         }
         
         /// <summary>
-        /// Gets project assemblies from the dependency context
+        /// Gets project discoveredAssemblies from the dependency context
         /// </summary>
         /// <returns></returns>
         public static IEnumerable<Assembly> AssemblyLoader()
@@ -71,7 +76,7 @@ namespace DotNetStarter.Extensions.Registrations.AspNetCore
         /// </summary>
         /// <param name="lifecycle"></param>
         /// <returns></returns>
-        public static ServiceLifetime ConvertToServiceLifetime(Lifecycle lifecycle)
+        public static ServiceLifetime ConvertToServiceLifetime(this Lifecycle lifecycle)
         {
             switch (lifecycle)
             {
