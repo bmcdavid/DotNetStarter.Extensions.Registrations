@@ -18,15 +18,9 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests.Mocks.Containers
 
         public string ContainerName { get; } = "Structuremap";
 
-        public T Get<T>()
-        {
-            return _container.GetInstance<T>();
-        }
+        public T Get<T>() => _container.GetInstance<T>();
 
-        public IEnumerable<T> All<T>()
-        {
-            return _container.GetAllInstances<T>();
-        }
+        public IEnumerable<T> All<T>() => _container.GetAllInstances<T>();
 
         public void Configure()
         {
@@ -45,17 +39,13 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests.Mocks.Containers
         {
             switch (lifetime)
             {
-                case Lifecycle.Transient:
-                    return Lifecycles.Transient;
-
                 case Lifecycle.Singleton:
                     return Lifecycles.Singleton;
-
                 case Lifecycle.Scoped:
                     return Lifecycles.Container;
+                default:
+                    return Lifecycles.Transient;
             }
-
-            return Lifecycles.Transient;
         }
     }
 }

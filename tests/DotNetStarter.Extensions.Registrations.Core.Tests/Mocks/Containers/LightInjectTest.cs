@@ -27,10 +27,7 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests.Mocks.Containers
 
         public string ContainerName { get; } = "LightInject";
 
-        public T Get<T>()
-        {
-            return _container.GetInstance<T>();
-        }
+        public T Get<T>() => _container.GetInstance<T>();
 
         public IEnumerable<T> All<T>()
         {
@@ -86,11 +83,9 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests.Mocks.Containers
                 case Lifecycle.Singleton:
                     return new PerContainerLifetime();
 
-                case Lifecycle.Transient:
+                default:
                     return null;
             }
-
-            return null;
         }
     }
 }

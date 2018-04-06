@@ -25,10 +25,7 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests.Mocks.Containers
 
         public string ContainerName { get; } = "SimpleInjector";
 
-        public IEnumerable<T> All<T>()
-        {
-            return _container.GetAllInstances(typeof(T)).OfType<T>();
-        }
+        public IEnumerable<T> All<T>() => _container.GetAllInstances(typeof(T)).OfType<T>();
 
         public void Configure()
         {
@@ -62,9 +59,19 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests.Mocks.Containers
 
         }
 
-        public T Get<T>()
+        public T Get<T>() => (T)_container.GetInstance(typeof(T));
+
+        private static Lifestyle ConvertLifeTime(Lifecycle lifetime)
         {
-            return (T)_container.GetInstance(typeof(T));
+            switch (lifetime)
+            {
+                case Lifecycle.Singleton:
+                    return Lifestyle.Singleton;
+                case Lifecycle.Scoped:
+                    return Lifestyle.Scoped;
+                default:
+                    return Lifestyle.Transient;
+            }
         }
 
         private static Registration ConvertToRegistration(DependentRegistration r, Container c)
@@ -83,42 +90,16 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests.Mocks.Containers
                     return Lifestyle.Transient.CreateRegistration(r.Implementation, c);
             }
         }
-
-        private static Lifestyle ConvertLifeTime(Lifecycle lifetime)
-        {
-            switch (lifetime)
-            {
-                case Lifecycle.Singleton:
-                    return Lifestyle.Singleton;
-
-                case Lifecycle.Transient:
-                    return Lifestyle.Transient;
-
-                case Lifecycle.Scoped:
-                    return Lifestyle.Scoped;
-            }
-
-            return Lifestyle.Transient;
-        }
-
-        // Custom constructor resolution behavior
         private class GreediestConstructorBehavior : IConstructorResolutionBehavior
         {
             public ConstructorInfo GetConstructor(Type implementationType)
             {
-                // hack: simpleinjector only for existing test configuration test, shouldn't really be used
-                if (implementationType == typeof(StringBuilder))
-                {
-                    return (from ctor in implementationType.GetConstructors()
-                            orderby ctor.GetParameters().Length descending
-                            select ctor)
-                        .Last();
-                }
+                var constructors = (from ctor in implementationType.GetConstructors()
+                    orderby ctor.GetParameters().Length descending
+                    select ctor);
 
-                return (from ctor in implementationType.GetConstructors()
-                        orderby ctor.GetParameters().Length descending
-                        select ctor)
-                    .First();
+                // hack: simpleinjector only for existing test configuration test, shouldn't really be used
+                return (implementationType == typeof(StringBuilder)) ? constructors.Last() : constructors.First();
             }
         }
     }

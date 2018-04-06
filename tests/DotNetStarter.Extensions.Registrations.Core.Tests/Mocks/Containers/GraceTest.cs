@@ -18,23 +18,11 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests.Mocks.Containers
 
         public string ContainerName { get; } = "Grace";
 
-        public T Get<T>()
-        {
-            return _container.Locate<T>();
-        }
+        public T Get<T>() => _container.Locate<T>();
 
-        public IEnumerable<T> All<T>()
-        {
-            return _container.LocateAll(typeof(T)).OfType<T>();
-        }
+        public IEnumerable<T> All<T>() => _container.LocateAll(typeof(T)).OfType<T>();
 
-        public void Configure()
-        {
-            _container.Configure(c =>
-            {
-                Register(c, _registrations);
-            });
-        }
+        public void Configure() => _container.Configure(c => Register(c, _registrations));
 
         private static void Register(IExportRegistrationBlock c, IEnumerable<DependentRegistration> descriptors)
         {
@@ -58,12 +46,11 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests.Mocks.Containers
             {
                 case Lifecycle.Scoped:
                     return configuration.Lifestyle.SingletonPerScope();
-
                 case Lifecycle.Singleton:
                     return configuration.Lifestyle.Singleton();
+                default:
+                    return configuration;
             }
-
-            return configuration;
         }
     }
 }
