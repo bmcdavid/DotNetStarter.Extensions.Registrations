@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using DotNetStarter.Abstractions;
-using DotNetStarter.Extensions.Registrations.Core.Tests.Mocks;
+﻿using DotNetStarter.Extensions.Registrations.Core.Tests.Mocks;
 using DotNetStarter.Extensions.Registrations.Core.Tests.Mocks.Containers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DotNetStarter.Extensions.Registrations.Core.Tests
 {
@@ -18,15 +16,7 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests
         public void Init()
         {
             // create and sort dependent registrations with DiscoverableAssembly attribute
-            var registrationFactory = new DependentRegistrationFactory();
-            var sorter = new RegistrationSorter();
-            var registrations = registrationFactory.CreateDependentRegistrations
-            (
-                AppDomain.CurrentDomain.GetAssemblies()
-                    .Where(a => a.GetCustomAttribute<DiscoverableAssemblyAttribute>() != null)
-            );
-
-            sorter.Sort(registrations);
+            var registrations = new RegistrationHelper().GetRegistrations();
 
             // assign the registrations to container test instances
             _containers = new List<IContainerTest>
@@ -40,6 +30,18 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests
 
             // configure the registrations for the container test
             foreach (var c in _containers) c.Configure();
+        }
+
+        [TestMethod]
+        public void ShouldResolveSimpleFunc()
+        {
+            foreach (var c in _containers)
+            {
+                var sut = c.Get<Func<ZTest1>>();
+                var instance = sut?.Invoke();
+                Assert.IsNotNull(instance, c.ContainerName + " failed func test");
+                Assert.IsTrue(instance.Services.Count == 5, c.ContainerName + " failed injecting services");
+            }
         }
 
         [TestMethod]
@@ -67,18 +69,6 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests
                 Assert.IsTrue(sut[2] is Service3, c.ContainerName + " failed deterministic");
                 Assert.IsTrue(sut[3] is Service2, c.ContainerName + " failed deterministic");
                 Assert.IsTrue(sut.Last() is Service4, c.ContainerName + " failed deterministic");
-            }
-        }
-
-        [TestMethod]
-        public void ShouldResolveSimpleFunc()
-        {
-            foreach (var c in _containers)
-            {
-                var sut = c.Get<Func<ZTest1>>();
-                var instance = sut?.Invoke();
-                Assert.IsNotNull(instance, c.ContainerName + " failed func test");
-                Assert.IsTrue(instance.Services.Count == 5, c.ContainerName + " failed injecting services");
             }
         }
     }

@@ -2,6 +2,11 @@
 
 [![Build status](https://ci.appveyor.com/api/projects/status/ub16hwapqm5q6mr0/branch/master?svg=true)](https://ci.appveyor.com/project/bmcdavid/dotnetstarter-extensions-registrations/branch/master)
 
+Package  | Version 
+-------- | :------------ 
+[DotNetStarter.Extensions.Registrations](https://www.nuget.org/packages/DotNetStarter.Extensions.Registrations/) |  [![NuGet version](https://badge.fury.io/nu/DotNetStarter.Extensions.Registrations.svg)](https://badge.fury.io/nu/DotNetStarter.Extensions.Registrations)
+[DotNetStarter.Extensions.Registrations.AspNetCore](https://www.nuget.org/packages/DotNetStarter.Extensions.Registrations.AspNetCore/) |  [![NuGet version](https://badge.fury.io/nu/DotNetStarter.Extensions.Registrations.AspNetCore.svg)](https://badge.fury.io/nu/DotNetStarter.Extensions.Registrations.AspNetCore)
+[DotNetStarter.Extensions.Registrations.EpiserverCms](https://www.nuget.org/packages/DotNetStarter.Extensions.Registrations.EpiserverCms/) |  [![NuGet version](https://badge.fury.io/nu/DotNetStarter.Extensions.Registrations.EpiserverCms.svg)](https://badge.fury.io/nu/DotNetStarter.Extensions.Registrations.EpiserverCms)
 
 The extensions provided in this project focus only on the dependency injection component of [DotNetStarter](https://bmcdavid.github.io/DotNetStarter/). If the full DotNetStarter package is installed, these extensions should not be used. These extensions provide service registration to AspNetCore's dependency injection or Episerver's service configuration utilizing the DotNetStarter.RegistrationAttribute attribute on class types that implement abstract services.
 
@@ -17,6 +22,49 @@ public void ConfigureServices(IServiceCollection services)
     services.AddDotNetStarterRegistrations();
 }
 ```
+## DI Container Wireup
+For application owners the following sample code will return a list of sorted registrations. The registrations can be modified if needed, then registered to the application's container in the [composition root](http://blog.ploeh.dk/2011/07/28/CompositionRoot/).
+
+```cs
+using DotNetStarter.Abstractions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+
+namespace DotNetStarter.Extensions.Registrations.Core.Tests
+{
+    public class RegistrationHelper
+    {
+        private readonly IDependentRegistrationFactory _dependentRegistrationFactory;
+        private readonly IRegistrationSorter _registrationSorter;
+
+        public RegistrationHelper(IDependentRegistrationFactory dependentRegistrationFactory = null, IRegistrationSorter registrationSorter = null)
+        {
+            _dependentRegistrationFactory = dependentRegistrationFactory ?? new DependentRegistrationFactory();
+            _registrationSorter = registrationSorter ?? new RegistrationSorter();
+        }
+
+        public ICollection<DependentRegistration> GetRegistrations(IEnumerable<Assembly> assemblies = null)
+        {
+            assemblies = assemblies ?? AppDomain.CurrentDomain.GetAssemblies()
+                             .Where(a => a.GetCustomAttribute<DiscoverableAssemblyAttribute>() != null);
+
+            var registrations = _dependentRegistrationFactory.CreateDependentRegistrations
+            (
+                assemblies
+            );
+
+            _registrationSorter.Sort(registrations);
+
+            return registrations;
+        }
+    }
+}
+```
+Examples of assigning discovered registrations to a variety of  containers can be found in the [unit test project](https://github.com/bmcdavid/DotNetStarter.Extensions.Registrations/tree/master/tests/DotNetStarter.Extensions.Registrations.Core.Tests/Mocks/Containers). 
+
+**Important note:** There are many [DI Containers](https://github.com/danielpalme/IocPerformance) available; each offering different functionality and performance. Some may also require additional configuration to resolve the registered services correctly.
 
 ## Episerver Cms Wireup
 
@@ -48,7 +96,6 @@ namespace Example
         {
             InitializeDotNetStarterRegistrations.ModuleEnabled = false;
         }
-
     }
 
     /// <summary>
@@ -79,7 +126,7 @@ namespace Example
 ```
 
 ## Advanced Usage
-Registering external dependencies is now possible using class decorated with the [DependencyConfiguration] attribute. This class must have a metho 'public static void' modifiers and take one argument of IDependencyConfigurationExpression. Example below:
+Registering external dependencies is now possible using class decorated with the [DependencyConfiguration] attribute. This class must have a method with 'public static void' modifiers and take one argument of IDependencyConfigurationExpression. Example below:
 
 ```cs
 // using DotNetStarter.Extensions.Registrations;
@@ -97,7 +144,7 @@ public class ExternalConfiguration
 ### Changing the lifecycle from default
 Sometimes the lifestyle may need to be adjusted from the desired state configured in the registration attribute. In these cases application owners can change them using either ASP.Net Core IServiceCollection after executing the AddDotNetStarterRegistrations extension. 
 
-In Episerver a custom Action<ICollection<DependentRegistration>> can be passed to the extension following the custom Episerver example above where the action can modify the lifecycle.
+In Episerver a custom Action<ICollection&lt;DependentRegistration>> can be passed to the extension following the custom Episerver example above where the action can modify the lifecycle.
 
 ## Example Service
 To create an injectable service in a project or NuGet package, add a reference to DotNetStarter.RegistrationAbstractions. Then create a service abstraction, example below:
