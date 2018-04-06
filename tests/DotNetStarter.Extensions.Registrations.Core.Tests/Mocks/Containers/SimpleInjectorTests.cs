@@ -54,6 +54,12 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests.Mocks.Containers
                     ConvertLifeTime(lastReg.CustomLifeCycle ?? lastReg.Registration.Lifecycle)
                 );
             }
+
+            // hack: simpleinjector resolving func
+            _container.RegisterInstance<Func<ZTest1>>(() => _container.GetInstance<ZTest1>());
+            //_container.Register<Func<T>>(() => _container.GetInstance<T>)
+            //_container.Register<Func<Type, object>>(() => { return (x) => _container.GetInstance(x); });
+
         }
 
         public T Get<T>()
@@ -100,7 +106,7 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests.Mocks.Containers
         {
             public ConstructorInfo GetConstructor(Type implementationType)
             {
-                // hack: only for existing test configuration test, shouldn't really be used
+                // hack: simpleinjector only for existing test configuration test, shouldn't really be used
                 if (implementationType == typeof(StringBuilder))
                 {
                     return (from ctor in implementationType.GetConstructors()

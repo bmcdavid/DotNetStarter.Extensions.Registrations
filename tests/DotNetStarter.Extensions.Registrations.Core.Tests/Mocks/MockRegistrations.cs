@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using DotNetStarter.Abstractions;
 
@@ -7,7 +8,7 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests.Mocks
     public interface IService { }
 
     [Registration(typeof(IService), Lifecycle.Transient, typeof(Service5))]
-    public class Service1: IService { }
+    public class Service1 : IService { }
 
     [Registration(typeof(IService), Lifecycle.Transient, typeof(Service3))]
     public class Service2 : IService { }
@@ -27,17 +28,21 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests.Mocks
     [Registration(typeof(ZTest1), Lifecycle.Transient, typeof(ATest2))]
     public class ZTest1
     {
-        public ZTest1()
+        public ICollection<IService> Services { get; }
+
+        public ZTest1(IEnumerable<IService> services)
         {
-            
+            Services = services.ToList();
         }
 
-        public ZTest1(IEnumerable<IService> services) { }
-          
     }
 
     [Registration(typeof(ZTest1))]
-    public class ATest2 : ZTest1 { }
+    public class ATest2 : ZTest1
+    {
+        public ATest2(IEnumerable<IService> services) : base(services) { }
+
+    }
 
     [DependencyConfiguration]
     public class ExternalConfiguration

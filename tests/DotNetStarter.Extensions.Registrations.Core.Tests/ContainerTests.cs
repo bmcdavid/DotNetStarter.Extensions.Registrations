@@ -69,5 +69,17 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests
                 Assert.IsTrue(sut.Last() is Service4, c.ContainerName + " failed deterministic");
             }
         }
+
+        [TestMethod]
+        public void ShouldResolveSimpleFunc()
+        {
+            foreach (var c in _containers)
+            {
+                var sut = c.Get<Func<ZTest1>>();
+                var instance = sut?.Invoke();
+                Assert.IsNotNull(instance, c.ContainerName + " failed func test");
+                Assert.IsTrue(instance.Services.Count == 5, c.ContainerName + " failed injecting services");
+            }
+        }
     }
 }

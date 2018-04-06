@@ -35,7 +35,7 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests.Mocks.Containers
         public IEnumerable<T> All<T>()
         {
             //return _container.GetAllInstances<T>();
-            // hack: to get proper sorting, move unamed to last,
+            // hack: lightinject to get proper sorting, move unamed to last,
             // also this will not work for constructor injecting
             var serviceList = _container.GetAllInstances<T>().ToList();
             var first = serviceList[0];
