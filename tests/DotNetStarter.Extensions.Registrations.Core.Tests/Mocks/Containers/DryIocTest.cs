@@ -1,9 +1,9 @@
-﻿using System;
+﻿using DotNetStarter.Abstractions;
+using DryIoc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using DotNetStarter.Abstractions;
-using DryIoc;
 
 namespace DotNetStarter.Extensions.Registrations.Core.Tests.Mocks.Containers
 {
@@ -51,8 +51,10 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests.Mocks.Containers
             {
                 case Lifecycle.Singleton:
                     return Reuse.Singleton;
+
                 case Lifecycle.Transient:
                     return Reuse.Transient;
+
                 case Lifecycle.Scoped:
                     return Reuse.ScopedOrSingleton;
             }
@@ -72,8 +74,7 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests.Mocks.Containers
 
         private static void RegisterSimple(IRegistrator register, Type service, Type implementation, IReuse reuse = null, string key = null)
         {
-            register.Register(service, implementation, reuse: reuse, made:  GetConstructorFor(implementation), serviceKey: key);
+            register.Register(service, implementation, reuse: reuse, made: GetConstructorFor(implementation), serviceKey: key);
         }
-
     }
 }

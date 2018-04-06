@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 using DotNetStarter.Abstractions;
 
 namespace DotNetStarter.Extensions.Registrations.Core.Tests.Mocks
@@ -19,12 +20,21 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests.Mocks
 
     [Registration(typeof(IService))]
     public class Service5 : IService { }
-    
+
     /// <summary>
     /// Shows how to oeverride, and first class for unsorted test
     /// </summary>
     [Registration(typeof(ZTest1), Lifecycle.Transient, typeof(ATest2))]
-    public class ZTest1 { }
+    public class ZTest1
+    {
+        public ZTest1()
+        {
+            
+        }
+
+        public ZTest1(IEnumerable<IService> services) { }
+          
+    }
 
     [Registration(typeof(ZTest1))]
     public class ATest2 : ZTest1 { }

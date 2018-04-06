@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using DotNetStarter.Abstractions;
+﻿using DotNetStarter.Abstractions;
 using StructureMap;
 using StructureMap.Pipeline;
+using System.Collections.Generic;
 
 namespace DotNetStarter.Extensions.Registrations.Core.Tests.Mocks.Containers
 {

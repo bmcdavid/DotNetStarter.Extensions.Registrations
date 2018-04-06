@@ -34,7 +34,8 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests
                 new StructureMapTest(registrations),
                 new DryIocTest(registrations),
                 new GraceTest(registrations),
-                new LightInjectTest(registrations)
+                new LightInjectTest(registrations),
+                new SimpleInjectorTests(registrations)
             };
 
             // configure the registrations for the container test

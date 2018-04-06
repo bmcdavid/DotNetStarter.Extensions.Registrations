@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using DotNetStarter.Abstractions;
+﻿using DotNetStarter.Abstractions;
 using Grace.DependencyInjection;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DotNetStarter.Extensions.Registrations.Core.Tests.Mocks.Containers
 {

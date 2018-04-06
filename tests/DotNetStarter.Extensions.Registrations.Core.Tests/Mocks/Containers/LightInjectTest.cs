@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using DotNetStarter.Abstractions;
+﻿using DotNetStarter.Abstractions;
 using LightInject;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -35,8 +35,8 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests.Mocks.Containers
         public IEnumerable<T> All<T>()
         {
             //return _container.GetAllInstances<T>();
-            // hack: to get proper sorting, move unamed to last, 
-            // also this will not work for constructor injecting 
+            // hack: to get proper sorting, move unamed to last,
+            // also this will not work for constructor injecting
             var serviceList = _container.GetAllInstances<T>().ToList();
             var first = serviceList[0];
             serviceList.RemoveAt(0);
@@ -82,8 +82,10 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests.Mocks.Containers
             {
                 case Lifecycle.Scoped:
                     return new PerScopeLifetime();
+
                 case Lifecycle.Singleton:
                     return new PerContainerLifetime();
+
                 case Lifecycle.Transient:
                     return null;
             }
