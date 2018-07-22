@@ -37,7 +37,7 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests
                 typeof(TestClassConfigure1),
                 typeof(TestClassConfigure2)
             };
-            var assemblyList = new List<Assembly> {configurationTypes[0].Assembly};
+            var assemblyList = new List<Assembly> { GetAssembly(configurationTypes[0])};
             DependencyConfigurationExpression sut = null;
 
             for (var i = 0; i < 1; i++)
@@ -106,9 +106,18 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests
         private static ICollection<DependentRegistration> GetRegistrationsFromMocks()
         {
             var factory = new DependentRegistrationFactory();
-            var registrations = factory.CreateDependentRegistrations(new[] { typeof(DependentRegistrationTests).Assembly });
+            var registrations = factory.CreateDependentRegistrations(new[] { GetAssembly(typeof(DependentRegistrationTests)) });
 
             return registrations;
+        }
+        
+        private static Assembly GetAssembly(Type t)
+        {
+#if NETCOREAPP1_0
+            return t.GetTypeInfo().Assembly;
+#else
+            return t.Assembly;
+#endif
         }
     }
 

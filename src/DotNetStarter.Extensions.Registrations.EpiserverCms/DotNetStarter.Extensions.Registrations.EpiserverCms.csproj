@@ -1,16 +1,26 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\targets\AddReleaseNotes.targets" />
+  <Import Project="..\..\targets\AddReadMeMarkdown.targets" />
+  <Import Project="..\..\targets\CommonBuild.props" />
+  <Import Project="..\..\targets\SignDll.props" />
 
   <PropertyGroup>
-    <ProjectName>DotNetStarter.Extensions.Registrations.EpiserverCms</ProjectName>
-    <TargetFramework>net461</TargetFramework>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <SignAssembly>True</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\..\dotnetstarter.snk</AssemblyOriginatorKeyFile>
+    <PackageId>DotNetStarter.Extensions.Registrations.EpiserverCms</PackageId>
+    <TargetFrameworks>net461</TargetFrameworks>
+    <Authors>Brad McDavid</Authors>
+    <Copyright>Copyright $(CurrentYear)</Copyright>
+    <Description>Add to Episerver 11 projects only, adds ability to insert RegistrationAttribute types to Episerver CMS.</Description>
+    <PackageVersion>1.1.0</PackageVersion>
+    <PackageTags>dotnetstarter di dependencyinjection episerver ioc</PackageTags>
+    <!--do not change unless you want to deal with assembly redirects-->
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <FileVersion>1.0.0</FileVersion>
   </PropertyGroup>
 
+  <Import Project="..\..\targets\CommonNuGetPackage.props" />
+
   <ItemGroup>
-    <PackageReference Include="DotNetStarter.RegistrationAbstractions" Version="1.1.0" />
+    <PackageReference Include="DotNetStarter.RegistrationAbstractions" Version="1.2.0" />
     <PackageReference Include="EPiServer.Framework" Version="11.1.0" />  
     <ProjectReference Include="..\DotNetStarter.Extensions.Registrations\DotNetStarter.Extensions.Registrations.csproj" />
   </ItemGroup>

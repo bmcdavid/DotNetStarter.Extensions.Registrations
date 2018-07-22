@@ -13,9 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 		appveyor.yml = appveyor.yml
 		license.txt = license.txt
 		.nuget\nuget.config = .nuget\nuget.config
-		.nuget\pack.ps1 = .nuget\pack.ps1
 		readme.md = readme.md
-		.nuget\setVersion.ps1 = .nuget\setVersion.ps1
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExampleServicePackage", "src\ExampleServicePackage\ExampleServicePackage.csproj", "{E6D1A36B-459A-48BF-B74D-03B6B711BE33}"
@@ -27,6 +25,15 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetStarter.Extensions.Registrations.Core.Tests", "tests\DotNetStarter.Extensions.Registrations.Core.Tests\DotNetStarter.Extensions.Registrations.Core.Tests.csproj", "{73A2DD13-9825-4622-9F1B-E43008D5291F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetStarter.Extensions.Registrations", "src\DotNetStarter.Extensions.Registrations\DotNetStarter.Extensions.Registrations.csproj", "{74153365-5918-4B2A-81B9-DFB3D1A88EBD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "targets", "targets", "{9F3A6855-C3D7-4FA1-8E71-41BBE0691338}"
+	ProjectSection(SolutionItems) = preProject
+		targets\AddReadMeMarkdown.targets = targets\AddReadMeMarkdown.targets
+		targets\AddReleaseNotes.targets = targets\AddReleaseNotes.targets
+		targets\CommonBuild.props = targets\CommonBuild.props
+		targets\CommonNuGetPackage.props = targets\CommonNuGetPackage.props
+		targets\SignDll.props = targets\SignDll.props
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
