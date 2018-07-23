@@ -40,7 +40,6 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests
                 Microsoft.Extensions.DependencyModel.DependencyContext.Default,
                 Microsoft.DotNet.PlatformAbstractions.RuntimeEnvironment.GetRuntimeIdentifier()
             );
-            System.Runtime.Loader.AssemblyLoadContext.Default.
             return libraries.Select(x => Assembly.Load(new AssemblyName(x.Name)));
 #else
             return AppDomain.CurrentDomain.GetAssemblies();
