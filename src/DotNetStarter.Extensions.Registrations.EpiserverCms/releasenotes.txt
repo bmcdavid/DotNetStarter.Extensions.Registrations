@@ -1,0 +1,1 @@
+﻿Adding netstandard 2.0 support.

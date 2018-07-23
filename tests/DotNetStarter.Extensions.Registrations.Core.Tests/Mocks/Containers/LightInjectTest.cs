@@ -61,7 +61,7 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests.Mocks.Containers
                         item.RegistrationList[0].CustomLifeCycle ??
                         item.RegistrationList[0].Registration.Lifecycle
                     ),
-                    (i) => NameService(i, item.ServiceType, item.RegistrationList)
+                    (i) => NameService(i, item.ServiceType.GetTypeInfo(), item.RegistrationList)
                 );
             }
         }

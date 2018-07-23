@@ -65,8 +65,7 @@ namespace DotNetStarter.Extensions.Registrations.AspNetCore
         /// <returns></returns>
         public static IEnumerable<Assembly> AssemblyLoader()
         {
-            var runtimeId = RuntimeEnvironment.GetRuntimeIdentifier();
-            var libraries = DependencyContext.Default.GetRuntimeAssemblyNames(runtimeId);
+            var libraries = DependencyContext.Default.GetRuntimeAssemblyNames(RuntimeEnvironment.GetRuntimeIdentifier());
 
             return libraries.Select(x => Assembly.Load(new AssemblyName(x.Name)));
         }

@@ -19,7 +19,7 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests
 
         public ICollection<DependentRegistration> GetRegistrations(IEnumerable<Assembly> assemblies = null)
         {
-            assemblies = assemblies ?? AppDomain.CurrentDomain.GetAssemblies()
+            assemblies = assemblies ?? GetAssemblies()
                              .Where(a => a.GetCustomAttribute<DiscoverableAssemblyAttribute>() != null);
 
             var registrations = _dependentRegistrationFactory.CreateDependentRegistrations
@@ -30,6 +30,20 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests
             _registrationSorter.Sort(registrations);
 
             return registrations;
+        }
+
+        private IEnumerable<Assembly> GetAssemblies()
+        {
+#if NETCOREAPP1_0
+            var libraries = Microsoft.Extensions.DependencyModel.DependencyContextExtensions.GetRuntimeAssemblyNames
+            (
+                Microsoft.Extensions.DependencyModel.DependencyContext.Default,
+                Microsoft.DotNet.PlatformAbstractions.RuntimeEnvironment.GetRuntimeIdentifier()
+            );
+            return libraries.Select(x => Assembly.Load(new AssemblyName(x.Name)));
+#else
+            return AppDomain.CurrentDomain.GetAssemblies();
+#endif
         }
     }
 }

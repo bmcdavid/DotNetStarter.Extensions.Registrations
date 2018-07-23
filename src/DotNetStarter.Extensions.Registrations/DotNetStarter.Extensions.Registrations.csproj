@@ -1,16 +1,26 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\targets\AddReleaseNotes.targets" />
+  <!--<Import Project="..\..\targets\AddReadMeMarkdown.targets" />-->
+  <Import Project="..\..\targets\CommonBuild.props" />
+  <Import Project="..\..\targets\SignDll.props" />
 
   <PropertyGroup>
-    <ProjectName>DotNetStarter.Extensions.Registrations</ProjectName>
-    <TargetFrameworks>net45;netstandard1.6</TargetFrameworks>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <SignAssembly>True</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\..\dotnetstarter.snk</AssemblyOriginatorKeyFile>
+    <PackageId>DotNetStarter.Extensions.Registrations</PackageId>
+    <TargetFrameworks>net45;netstandard1.6;netstandard2.0</TargetFrameworks>
+    <Authors>Brad McDavid</Authors>
+    <Copyright>Copyright $(CurrentYear)</Copyright>
+    <Description>Core extensions functionality, adds ability to register external dependencies to an IOC/DI container.</Description>
+    <PackageVersion>1.1.0</PackageVersion>
+    <PackageTags>dotnetstarter di dependencyinjection ioc</PackageTags>
+    <!--do not change unless you want to deal with assembly redirects-->
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <FileVersion>1.0.0</FileVersion>
   </PropertyGroup>
 
+  <Import Project="..\..\targets\CommonNuGetPackage.props" />
+
   <ItemGroup>
-    <PackageReference Include="DotNetStarter.RegistrationAbstractions" Version="1.1.0" />
+    <PackageReference Include="DotNetStarter.RegistrationAbstractions" Version="1.2.0" />
   </ItemGroup>
 
 </Project>
