@@ -3,6 +3,7 @@ using DryIoc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace DotNetStarter.Extensions.Registrations.Core.Tests.Mocks.Containers
 {
@@ -51,8 +52,17 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests.Mocks.Containers
 
         private static Made GetConstructorFor(Type implementationType)
         {
-            return Made.Of(implementationType.GetConstructors()
+            return Made.Of(GetConstructorsForType(implementationType)
                 .OrderByDescending(x => x.GetParameters().Length).FirstOrDefault());
+        }
+
+        private static IEnumerable<ConstructorInfo> GetConstructorsForType(Type t)
+        {
+#if NETCOREAPP1_0
+            return t.GetTypeInfo().GetConstructors();
+#else
+            return t.GetConstructors();
+#endif
         }
     }
 }

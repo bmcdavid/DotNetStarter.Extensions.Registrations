@@ -19,7 +19,7 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests
 
         public ICollection<DependentRegistration> GetRegistrations(IEnumerable<Assembly> assemblies = null)
         {
-            assemblies = assemblies ?? AppDomain.CurrentDomain.GetAssemblies()
+            assemblies = assemblies ?? GetAssemblies()
                              .Where(a => a.GetCustomAttribute<DiscoverableAssemblyAttribute>() != null);
 
             var registrations = _dependentRegistrationFactory.CreateDependentRegistrations
@@ -30,6 +30,15 @@ namespace DotNetStarter.Extensions.Registrations.Core.Tests
             _registrationSorter.Sort(registrations);
 
             return registrations;
+        }
+
+        private IEnumerable<Assembly> GetAssemblies()
+        {
+#if NETCOREAPP1_0
+            return Enumerable.Empty<Assembly>();
+#else
+            return AppDomain.CurrentDomain.GetAssemblies();
+#endif
         }
     }
 }
