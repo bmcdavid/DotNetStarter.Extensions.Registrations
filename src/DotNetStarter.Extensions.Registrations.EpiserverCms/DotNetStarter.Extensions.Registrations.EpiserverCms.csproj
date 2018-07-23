@@ -6,7 +6,7 @@
 
   <PropertyGroup>
     <PackageId>DotNetStarter.Extensions.Registrations.EpiserverCms</PackageId>
-    <TargetFrameworks>net461</TargetFrameworks>
+    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
     <Authors>Brad McDavid</Authors>
     <Copyright>Copyright $(CurrentYear)</Copyright>
     <Description>Add to Episerver 11 projects only, adds ability to insert RegistrationAttribute types to Episerver CMS.</Description>
